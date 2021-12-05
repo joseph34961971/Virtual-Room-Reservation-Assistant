@@ -1,10 +1,16 @@
 <template>
   <div id="app">
+    <el-date-picker
+      v-model="testDate"
+      type="date"
+      placeholder="Pick a day">
+    </el-date-picker>
+
     <el-button
       type="success"
       @click="test"
     >
-      按我!
+      確認!
     </el-button>
   </div>
 </template>
@@ -20,10 +26,10 @@ import { component } from 'vue/types/umd';
 })
 
 export default class test extends Vue {
-  private num = '10'
+  private testDate = ''
 
   private test() {
-    console.log(this.num)
+    console.log(this.testDate)
   }
 
 }
