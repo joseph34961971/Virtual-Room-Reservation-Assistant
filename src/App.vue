@@ -1,17 +1,6 @@
 <template>
   <div id="app">
-    <el-date-picker
-      v-model="testDate"
-      type="date"
-      placeholder="Pick a day">
-    </el-date-picker>
-
-    <el-button
-      type="success"
-      @click="test"
-    >
-      確認!
-    </el-button>
+    <router-view/>
   </div>
 </template>
 
