@@ -4,5 +4,7 @@
     <router-link :to="{name:'Dateselect'}">Dateselect</router-link>
     <br>
     <router-link :to="{name:'Login'}">Login</router-link>
+    <br>
+    <router-link :to="{name:'Registration'}">Registration</router-link>
   </div>
 </template>
