@@ -1,8 +1,6 @@
 <template>
   <div class="ra-login">
-    <h1>login page</h1>
-    <router-link :to="{name:'Home'}">BackHome</router-link>
-    <p class="my-logo">LOGO</p>
+    <p class="my-logo">VRRA</p>
     <div class="flex-wrapper-one">
       <div class="flex-wrapper-two">
         <img
@@ -25,9 +23,11 @@
       </div>
       <div class="flex-wrapper-three">
         <p class="input"><router-link :to="{name:'Registration'}">create an account?</router-link></p>
-        <div class="button">
-          <p class="text-label">Login</p>
-        </div>
+        <el-button
+          class="button"
+        >
+          確認
+        </el-button>
       </div>
     </div>
   </div>

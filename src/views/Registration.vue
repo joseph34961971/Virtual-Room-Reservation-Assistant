@@ -1,61 +1,129 @@
 <template>
   <div class="ra-register">
-    <h1>login page</h1>
-    <router-link :to="{name:'Home'}">BackHome</router-link>
-    <p class="mylogo">LOGO</p>
+    <p class="mylogo">VRRA</p>
     <div class="flex-wrapper-one">
       <p class="input">Register</p>
-      <div class="text-field">
-        <div class="text-area">
-          <p class="label">First name</p>
-          <p class="input-two">Input</p>
-        </div>
-      </div>
-      <div class="text-field">
-        <div class="text-area">
-          <p class="label">Last name</p>
-          <p class="input-two">Input</p>
-        </div>
-      </div>
-      <div class="text-field">
-        <div class="text-area">
-          <p class="label">Username</p>
-          <p class="input-two">Input</p>
-        </div>
-      </div>
-      <div class="text-field">
-        <div class="text-area">
-          <p class="label">Password</p>
-          <p class="input-two">Input</p>
-        </div>
-      </div>
-      <div class="text-field">
-        <div class="text-area">
-          <p class="label">Confirm Password</p>
-          <p class="input-two">Input</p>
-        </div>
-      </div>
-      <div class="text-field-two">
-        <div class="text-area-two">
-          <p class="label">Email</p>
-          <p class="input-two">Input</p>
-        </div>
-      </div>
+        <el-form
+          ref="form"
+          class="text-area"
+          v-loading="loading"
+          :model="form"
+        >          
+          <h2
+          class="label">First Name</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.firstName"      
+            />
+          </el-form-item>
+          <h2
+          class="label">Last Name</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.lastName"            
+            />
+          </el-form-item>
+          <h2
+          class="label">User Name</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.userName"             
+            />
+          </el-form-item>
+          <h2
+          class="label">Password</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.password"              
+            />
+          </el-form-item>
+          <h2
+          class="label">Confirm Password</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.confirmPassword"              
+            />
+          </el-form-item>
+          <h2
+          class="label">Email</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.mail"              
+            />
+          </el-form-item>
+        </el-form>
       <div class="flex-wrapper-two">
         <p class="input-three"><router-link :to="{name:'Login'}">Back to login</router-link></p>
-        <div class="button">
-          <p class="text-label">register</p>
-        </div>
+        <el-button
+          class="button"
+        >
+          Register
+        </el-button>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "RaRegister"
-};
+<script lang="ts">
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import { component } from 'vue/types/umd';
+import About from './views/About.vue';
+
+@Component({
+  name: 'dateSelect'
+})
+
+export default class test extends Vue {
+  private testDate = ''
+  private value = ''
+  private date = ''
+  private form = {
+    firstName: '',
+    lastName: '',
+    userName: '',
+    password: '',
+    confirmPassword: '',
+    mail: ''
+  }
+  private loading = false
+
+  private test() {
+    console.log(this.value)
+  }
+
+  private logout() {
+    console.log('haha')
+  }
+
+  private enterDate() {
+    console.log(this.date)
+  }
+
+  private submit() {
+    console.log(this.form.firstName)
+    console.log(this.form.mail)
+  }
+
+}
 </script>
+
+<style scoped>
+.app-container {
+  width: 100%;
+}
+
+.edit-form {
+  width: 50%;
+  margin: auto;
+}
+</style>
+
 
 <style lang="scss" scoped>
 .ra-register {
@@ -82,14 +150,14 @@ export default {
   box-shadow: 5px 8px 20px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   border: 2px solid rgba(0, 0, 0, 1);
 }
 .input {
   font-family: "Roboto";
   font-size: 48px;
-  font-weight: 400;
-  line-height: 24px;
+  font-weight: 30;
+  line-height: 12px;
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
   text-align: center;
@@ -100,30 +168,30 @@ export default {
   border-radius: 4px;
   padding: 7px 15px;
   display: flex;
-  align-items: center;
+  align-items: left;
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
 .text-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: left;
   width: 296px;
 }
 .label {
   font-family: "Roboto";
   font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  // font-weight: 400;
+  // line-height: 16px;
   color: rgba(0, 0, 0, 0.6);
-  align-self: stretch;
+  align-self: flex-start;
 }
 .input-two {
   font-family: "Roboto";
   font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: rgba(0, 0, 0, 0.87);
-  align-self: stretch;
+  // font-weight: 0;
+  // line-height: 24px;
+  // color: rgba(0, 0, 0, 0.87);
+  align-self: flex-start;
 }
 .text-field-two {
   margin-bottom: 24px;
@@ -171,3 +239,4 @@ export default {
   letter-spacing: 0.14px;
 }
 </style>
+
