@@ -32,7 +32,7 @@
           </el-form-item>
         </el-form>
       <div class="flex-wrapper-two">
-        <p class="input-three"><router-link :to="{name:'Login'}">Back to login</router-link></p>
+        <p class="input-three"><router-link :to="{name:'Registration'}">Create account</router-link></p>
         <el-button
           class="button"
           @click="submit"

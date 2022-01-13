@@ -1,0 +1,7 @@
+import request from '@/utils/request'
+
+export const getRestrictedAccounts = (did: string, query: any) =>
+  request({
+    url: `/departments/${did}/restricted_users${query}`,
+    method: 'get'
+  })
