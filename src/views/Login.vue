@@ -1,53 +1,108 @@
 <template>
-  <div class="ra-login">
-    <p class="my-logo">VRRA</p>
+  <div class="ra-register">
+    <el-page-header
+      content="Date Select Page"
+      @back="$router.back(-1)"
+    >
+    </el-page-header>
+    <p class="mylogo">VRRA</p>
     <div class="flex-wrapper-one">
+      <p class="input">Login</p>
+        <el-form
+          ref="form"
+          class="text-area"
+          v-loading="loading"
+          :model="form"
+        >
+          <h2
+          class="label">User Name</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.userName"             
+            />
+          </el-form-item>
+          <h2
+          class="label">Password</h2>
+          <el-form-item>
+            <el-input
+              class="input-two"
+              v-model="form.password"              
+            />
+          </el-form-item>
+        </el-form>
       <div class="flex-wrapper-two">
-        <img
-          alt=""
-          class="mask"
-          src="https://static.overlay-tech.com/assets/0269e77d-d347-4dd2-ac5a-5e9bb35f3d4b.png"
-        />
-      </div>
-      <div class="acc-text-field">
-        <div class="acc-text-area">
-          <p class="acclabel">Account</p>
-          <p class="account-input">Input</p>
-        </div>
-      </div>
-      <div class="passtext-field">
-        <div class="acc-text-area">
-          <p class="acclabel">Password</p>
-          <p class="account-input">Input</p>
-        </div>
-      </div>
-      <div class="flex-wrapper-three">
-        <p class="input"><router-link :to="{name:'Registration'}">create an account?</router-link></p>
+        <p class="input-three"><router-link :to="{name:'Login'}">Back to login</router-link></p>
         <el-button
           class="button"
+          @click="submit"
         >
-          確認
+          Login
         </el-button>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "RaLogin"
-};
+<script lang="ts">
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import { component } from 'vue/types/umd';
+import About from './views/About.vue';
+
+@Component({
+  name: 'dateSelect'
+})
+
+export default class test extends Vue {
+  private testDate = ''
+  private value = ''
+  private date = ''
+  private form = {
+    userName: '',
+    password: ''
+  }
+  private loading = false
+
+  private test() {
+    console.log(this.value)
+  }
+
+  private logout() {
+    console.log('haha')
+  }
+
+  private enterDate() {
+    console.log(this.date)
+  }
+
+  private submit() {
+    console.log(this.form)
+  }
+
+}
 </script>
 
+<style scoped>
+.app-container {
+  width: 100%;
+}
+
+.edit-form {
+  width: 50%;
+  margin: auto;
+}
+</style>
+
+
 <style lang="scss" scoped>
-.ra-login {
+.ra-register {
   background-color: rgba(255, 255, 255, 1);
   padding: 78px 420px 82px 72px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
-.my-logo {
+.mylogo {
   font-family: "Sora";
   font-size: 64px;
   font-weight: 400;
@@ -60,84 +115,84 @@ export default {
   background-color: rgba(255, 255, 255, 1);
   margin-left: 348px;
   border-radius: 20px;
-  padding: 114px 134px 160px;
+  padding: 69px 134px 130px;
   box-shadow: 5px 8px 20px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   border: 2px solid rgba(0, 0, 0, 1);
 }
-.flex-wrapper-two {
-  background: linear-gradient(
-    137deg,
-    rgba(161, 203, 166, 1) -5%,
-    rgba(44, 119, 53, 1) 108%
-  );
-  margin-bottom: 88px;
-  border-radius: 50%;
-  display: flex;
-  align-items: flex-start;
+.input {
+  font-family: "Roboto";
+  font-size: 48px;
+  font-weight: 30;
+  line-height: 12px;
+  color: rgba(115, 175, 121, 1);
+  align-self: stretch;
+  text-align: center;
+  margin-bottom: 97px;
 }
-.mask {
-  width: 256px;
-  height: 256px;
-}
-.acc-text-field {
+.text-field {
   margin-bottom: 16px;
   border-radius: 4px;
   padding: 7px 15px;
   display: flex;
-  align-items: center;
+  align-items: left;
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
-.acc-text-area {
+.text-area {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: left;
   width: 296px;
 }
-.acclabel {
+.label {
   font-family: "Roboto";
   font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
+  // font-weight: 400;
+  // line-height: 16px;
   color: rgba(0, 0, 0, 0.6);
-  align-self: stretch;
+  align-self: flex-start;
 }
-.account-input {
+.input-two {
   font-family: "Roboto";
   font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  color: rgba(0, 0, 0, 0.87);
-  align-self: stretch;
+  // font-weight: 0;
+  // line-height: 24px;
+  // color: rgba(0, 0, 0, 0.87);
+  align-self: flex-start;
 }
-.passtext-field {
-  margin-bottom: 14px;
+.text-field-two {
+  margin-bottom: 24px;
   border-radius: 4px;
   padding: 7px 15px;
   display: flex;
   align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
-.flex-wrapper-three {
+.text-area-two {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.flex-wrapper-two {
   display: flex;
   align-items: center;
 }
-.input {
-  width: 160px;
+.input-three {
+  width: calc(100% - 102px);
   font-family: "Roboto";
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
-  margin-right: 80px;
+  margin-right: 14px;
 }
 .button {
   background-color: rgba(115, 175, 121, 1);
   border-radius: 4px;
-  padding: 6px 23.5px;
+  padding: 6px 11.5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,3 +208,4 @@ export default {
   letter-spacing: 0.14px;
 }
 </style>
+

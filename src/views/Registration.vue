@@ -1,5 +1,10 @@
 <template>
   <div class="ra-register">
+    <el-page-header
+      content="Date Select Page"
+      @back="$router.back(-1)"
+    >
+    </el-page-header>
     <p class="mylogo">VRRA</p>
     <div class="flex-wrapper-one">
       <p class="input">Register</p>
@@ -62,6 +67,7 @@
         <p class="input-three"><router-link :to="{name:'Login'}">Back to login</router-link></p>
         <el-button
           class="button"
+          @click="submit"
         >
           Register
         </el-button>
@@ -106,8 +112,7 @@ export default class test extends Vue {
   }
 
   private submit() {
-    console.log(this.form.firstName)
-    console.log(this.form.mail)
+    console.log(this.form)
   }
 
 }
