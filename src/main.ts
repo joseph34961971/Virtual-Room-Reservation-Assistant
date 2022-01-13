@@ -3,17 +3,18 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./plugins/element.js";
-// import VueGoogleApi from "vue-google-api";
 
 Vue.config.productionTip = false;
 
-const config = {
-  apiKey: 'your_api_key',
-  clientId: 'your_client_id.apps',
-  scope: '',
-  discoveryDocs: []
-}
+//Hao-Wen's section
+// const config = {
+//   apiKey: 'your_api_key',
+//   clientId: 'your_client_id.apps',
+//   scope: '',
+//   discoveryDocs: []
+// }
 // Vue.use(VueGoogleApi,config);
+//End of Hao-Wen's section
 
 new Vue({
   router,

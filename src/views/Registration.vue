@@ -1,10 +1,5 @@
 <template>
   <div class="ra-register">
-    <el-page-header
-      content="Date Select Page"
-      @back="$router.back(-1)"
-    >
-    </el-page-header>
     <p class="mylogo">VRRA</p>
     <div class="flex-wrapper-one">
       <p class="input">Register</p>
@@ -72,6 +67,26 @@
           Register
         </el-button>
       </div>
+      <div class="flex-wrapper-two">
+        <el-button
+          class="button"
+          @click="initAuthN"
+        >
+          initAuth
+        </el-button>
+        <el-button
+          class="button"
+          @click="addEvent"
+        >
+          testADd
+        </el-button>
+        <el-button
+          class="button"
+          @click="signOut"
+        >
+          signOut
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -80,6 +95,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
+import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick} from '@/apis/googleCal';
 
 @Component({
   name: 'dateSelect'
@@ -112,7 +128,30 @@ export default class test extends Vue {
   }
 
   private submit() {
-    console.log(this.form)
+    console.log(this.form.firstName)
+    console.log(this.form.mail)
+    
+    //handleAuthClick(this.form.firstName);
+  }
+
+  private initAuthN()
+  {
+    initAuth();
+  }
+
+  private addEvent()
+  {
+    testAdd();
+  }
+
+  private signOut()
+  {
+    handleSignoutClick(this.form.firstName);
+  }
+
+  created()
+  {
+    handleClientLoad();
   }
 
 }
