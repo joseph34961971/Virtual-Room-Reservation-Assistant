@@ -1,7 +1,5 @@
 <template>
   <div class="UM">
-    <h1>User meeting page</h1>
-    <router-link :to="{name:'Home'}">BackHome</router-link>
     <div class="flex-wrapper-one">
       <p class="input">My Meeting</p>
       <div class="meeting">
@@ -37,7 +35,7 @@
   background-color: rgba(255, 255, 255, 1);
   margin-left: 30px;
   border-radius: 20px;
-  padding: 10px 60px 10px;
+  padding: 10px 60px 10px 60px;
   box-shadow: 5px 8px 20px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;

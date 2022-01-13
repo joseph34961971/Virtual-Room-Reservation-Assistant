@@ -8,7 +8,7 @@
     <el-container class="app">
       <el-main style="margin:30px 200px 10px 200px;">
         <el-calendar
-          v-model="date"
+          :date = date
         >
         </el-calendar>
         <div align="right">
@@ -25,18 +25,19 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 
 @Component({
-  name: 'dateSelect'
+  name: 'dateSelect',
+  props: ['date']
 })
 
 export default class test extends Vue {
   private testDate = ''
   private value = ''
-  private date = ''
+  
 
   private test() {
     console.log(this.value)
@@ -47,7 +48,7 @@ export default class test extends Vue {
   }
 
   private enterDate() {
-    console.log(this.date)
+    console.log()
   }
 
 }

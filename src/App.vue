@@ -23,8 +23,11 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 
 @Component({
-  components: {
-    test
+  name: 'appContainer',
+  data: function() {
+    return {
+      date: ''
+    } 
   }
 })
 
