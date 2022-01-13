@@ -13,7 +13,13 @@
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
-      "webpack-env"
+      "webpack-env",
+      "gapi",
+      "gapi.auth2",
+      "gapi.client",
+      "gapi.client.calendar",
+      "jsonwebtoken",
+      "jquery"
     ],
     "paths": {
       "@/*": [
