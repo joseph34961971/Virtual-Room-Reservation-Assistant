@@ -34,18 +34,18 @@ import * as jwt from 'jsonwebtoken';
     // insertEvents('2022-01-13T09:00:00-07:00','2022-01-13T15:00:00-07:00','title','description');
 
     //Good One
-    //handleAuthClick('lol');
+    handleAuthClick('lol');
 
     // gapi.client.load('calendar','v3');
     // gapi.auth.setToken();
-    gapi.auth.authorize({
-      client_id:'231149043691-hcppd28j8ar799dei8c1fep3h3u5vhfn.apps.googleusercontent.com',
-      response_type:'id_token permission',
-      scope:"https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
-      immediate:true
-    },function(response) {
-      console.log(response);
-    });
+    // gapi.auth.authorize({
+    //   client_id:'231149043691-hcppd28j8ar799dei8c1fep3h3u5vhfn.apps.googleusercontent.com',
+    //   response_type:'id_token permission',
+    //   scope:"https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
+    //   immediate:false
+    // },function(response) {
+    //   console.log(response);
+    // });
     // console.log(retVal);
   }
 
@@ -56,20 +56,7 @@ import * as jwt from 'jsonwebtoken';
 
   function testAuthorize()
   {
-    gapi.auth2.authorize({
-      client_id: CLIENT_ID,
-      scope: 'jam99998888@gmail.com',
-      response_type: 'id_token permission',
-    }, function(response) {
-      if (response.error) {
-        // An error happened!
-        return;
-      }
-      // The user authorized the application for the scopes requested.
-      const accessToken = response.access_token;
-      const idToken = response.id_token;
-      // You can also now use gapi.client to perform authenticated requests.
-    });
+    
   } 
 
   /**
