@@ -8,7 +8,7 @@
     <el-container class="app">
       <el-main style="margin:30px 200px 10px 200px;">
         <el-calendar
-          :date = date
+          v-model="date"
         >
         </el-calendar>
         <div align="right">
@@ -30,25 +30,19 @@ import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 
 @Component({
-  name: 'dateSelect',
-  props: ['date']
+  name: 'dateSelect'
 })
 
 export default class test extends Vue {
-  private testDate = ''
-  private value = ''
+  private date = ''
   
-
-  private test() {
-    console.log(this.value)
-  }
-
   private logout() {
     console.log('haha')
   }
 
   private enterDate() {
-    console.log()
+    console.log(this.date)
+    this.$router.push('Reservation')
   }
 
 }

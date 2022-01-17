@@ -113,7 +113,7 @@ import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sen
 import {connectMongo} from '@/apis/mongoTest';
 
 @Component({
-  name: 'dateSelect'
+  name: 'registration'
 })
 
 export default class test extends Vue {
