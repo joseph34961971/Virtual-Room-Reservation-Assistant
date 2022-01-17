@@ -110,7 +110,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents} from '@/apis/googleCal';
-//import {connectMongo} from '@/apis/mongoTest';
+import {connectMongo} from '@/apis/mongoTest';
 
 @Component({
   name: 'registration'
@@ -169,10 +169,18 @@ export default class test extends Vue {
     sendMail('a','d','ad');
   }
 
-  private testMongo()
+  async testMongo()
   {
     //connectMongo();
-    listUpcomingEvents();
+    const events=await listUpcomingEvents();
+    console.log(await events[0].start.dateTime);
+    if (events.length > 0) {
+       for (let j = 0; j < events.length; j++) {
+          const event = events[j];
+          const when = event.start.dateTime;
+          console.log(event.summary + ' (' + when + ')');
+      }
+    }
   }
 
   created()

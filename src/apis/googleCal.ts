@@ -35,6 +35,8 @@ import * as jwt from 'jsonwebtoken';
     insertEvents('2022-01-14T09:00:00-07:00','2022-01-14T15:00:00-07:00','title','description');
   }
 
+
+
   // function testAuthorize()
   // {
     
@@ -111,6 +113,7 @@ import * as jwt from 'jsonwebtoken';
     }
   }
 
+
   function insertEvents(start:any,end:any,title:any,des:any) {
       // const start = document.getElementById("start").value;
       // const end = document.getElementById("end").value;
@@ -182,32 +185,7 @@ import * as jwt from 'jsonwebtoken';
       items: IIEvent[]
     }
 
-    export function listUpcomingEvents() {
-      // gapi.client.calendar.events.list({
-      //   'calendarId': 'primary',
-      //   'timeMin': (new Date()).toISOString(),
-      //   'showDeleted': false,
-      //   'singleEvents': true,
-      //   'maxResults': 10,
-      //   'orderBy': 'startTime'
-      // }).then(function(response) {
-      //    const events = response.result.items;
-      //   appendPre('Upcoming events:');
-
-      //   if (events.length > 0) {
-      //     for (i = 0; i < events.length; i++) {
-      //       const event = events[i];
-      //       const when = event.start.dateTime;
-      //       if (!when) {
-      //         when = event.start.date;
-      //       }
-      //       appendPre(event.summary + ' (' + when + ')')
-      //     }
-      //   } else {
-      //     appendPre('No upcoming events found.');
-      //   }
-      // });
-      
+    export async function listUpcomingEvents():Promise<any> {        
       const request = gapi.client.calendar.events.list({
         'calendarId': 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com',
         //'timeMin': (new Date()).toISOString(),
@@ -216,14 +194,43 @@ import * as jwt from 'jsonwebtoken';
         // 'maxResults': 10,
         // 'orderBy': 'startTime'
       });
-      request.execute(function(resp:any) {
+      return new Promise(resolve=>{
+        request.execute(function(resp:any) {
+          if(!resp.error) {
+            const calendarIds = [];
+            
+            for(let i = 0; i < resp.items.length; i++) {
+              calendarIds.push(resp.items[i]);
+            }         
+            const reEvent = calendarIds;
+            console.log(calendarIds.length);
+            console.log(calendarIds[0].start.dateTime);
+            if (calendarIds.length > 0) {
+                  for (let j = 0; j < calendarIds.length; j++) {
+                    const event = calendarIds[j];
+                    const when = event.start.dateTime;
+                    console.log(event.summary + ' (' + when + ')');
+                  }
+                  resolve(calendarIds); 
+                } else {
+                  console.log('No upcoming events found.');
+                }
+          }
+          else {
+            console.log('bad');
+          }
+        });
+      }) 
+
+
+      /*await request.execute(function(resp:any) {
         if(!resp.error) {
           const calendarIds = [];
+          
           for(let i = 0; i < resp.items.length; i++) {
             calendarIds.push(resp.items[i]);
-          }
-          
-          
+          }         
+          const reEvent = calendarIds;
           console.log(calendarIds.length);
           console.log(calendarIds[0].start.dateTime);
           if (calendarIds.length > 0) {
@@ -232,15 +239,23 @@ import * as jwt from 'jsonwebtoken';
                   const when = event.start.dateTime;
                   console.log(event.summary + ' (' + when + ')');
                 }
+                return new Promise(resolve=>{
+                  setTimeout(()=>{
+                    resolve(reEvent);
+                  },2000)
+                })   
+                return calendarIds[0].summary;
               } else {
-                console.log(appendPre('No upcoming events found.'));
+                console.log('No upcoming events found.');
               }
         }
         else {
           console.log('bad');
         }
-      });
+      });*/
     }
+
+    //export type RZ = ReturnType<typeof listUpcomingEvents>;
 
 
   const authUrl = "https://www.googleapis.com/oauth2/v4/token";

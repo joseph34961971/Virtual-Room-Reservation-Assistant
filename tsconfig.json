@@ -21,7 +21,8 @@
       "gapi.client.gmail",
       "jsonwebtoken",
       "jquery",
-      "mongoose"
+      "mongoose",
+      "node-fetch"
     ],
     "paths": {
       "@/*": [
