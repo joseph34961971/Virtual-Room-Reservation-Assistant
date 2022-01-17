@@ -110,7 +110,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents} from '@/apis/googleCal';
-import {connectMongo} from '@/apis/mongoTest';
+//import {connectMongo} from '@/apis/mongoTest';
 
 @Component({
   name: 'registration'
@@ -171,7 +171,7 @@ export default class test extends Vue {
 
   private testMongo()
   {
-    connectMongo();
+    //connectMongo();
     listUpcomingEvents();
   }
 

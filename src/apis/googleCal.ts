@@ -160,7 +160,7 @@ import * as jwt from 'jsonwebtoken';
         console.log(resp);
       });
     }   
-    
+
     export interface IIEvent{
       kind: string,
       etag: string,
@@ -220,16 +220,17 @@ import * as jwt from 'jsonwebtoken';
         if(!resp.error) {
           const calendarIds = [];
           for(let i = 0; i < resp.items.length; i++) {
-            calendarIds.push(resp.items[i].id);
+            calendarIds.push(resp.items[i]);
           }
           
+          
           console.log(calendarIds.length);
-          console.log(calendarIds[0].summary);
+          console.log(calendarIds[0].start.dateTime);
           if (calendarIds.length > 0) {
                 for (let j = 0; j < calendarIds.length; j++) {
                   const event = calendarIds[j];
                   const when = event.start.dateTime;
-                  console.log(appendPre(event.summary + ' (' + when + ')'));
+                  console.log(event.summary + ' (' + when + ')');
                 }
               } else {
                 console.log(appendPre('No upcoming events found.'));
