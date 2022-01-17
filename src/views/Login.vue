@@ -50,7 +50,7 @@ import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 
 @Component({
-  name: 'dateSelect'
+  name: 'login'
 })
 
 export default class test extends Vue {

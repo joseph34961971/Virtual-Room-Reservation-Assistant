@@ -98,7 +98,7 @@ import About from './views/About.vue';
 import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick} from '@/apis/googleCal';
 
 @Component({
-  name: 'dateSelect'
+  name: 'registration'
 })
 
 export default class test extends Vue {

@@ -26,7 +26,7 @@ import { component } from 'vue/types/umd';
   name: 'appContainer',
   data: function() {
     return {
-      date: ''
+      message: 'test message'
     } 
   }
 })
