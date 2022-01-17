@@ -161,6 +161,27 @@ import * as jwt from 'jsonwebtoken';
       });
     }   
     
+    export interface IIEvent{
+      kind: string,
+      etag: string,
+      id: string,
+      status: string,
+      htmlLink: string,
+      created: string,
+      updated: string,
+      summary: string,
+    }
+
+    export interface IEvent {
+      kind: string
+      etag: string,
+      summary: string,
+      updated: string,
+      timeZone: string
+      accessRole: string
+      items: IIEvent[]
+    }
+
     export function listUpcomingEvents() {
       // gapi.client.calendar.events.list({
       //   'calendarId': 'primary',
