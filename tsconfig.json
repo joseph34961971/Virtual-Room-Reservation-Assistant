@@ -18,8 +18,10 @@
       "gapi.auth2",
       "gapi.client",
       "gapi.client.calendar",
+      "gapi.client.gmail",
       "jsonwebtoken",
-      "jquery"
+      "jquery",
+      "mongoose"
     ],
     "paths": {
       "@/*": [

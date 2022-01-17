@@ -8,11 +8,11 @@ import * as jwt from 'jsonwebtoken';
   const API_KEY = 'AIzaSyBSRSGlpRY5WxxwglKjpqqi2rDQKCR3ymI';
 
   // Array of API discovery doc URLs for APIs used by the quickstart
-  const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+  const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest","https://www.googleapis.com/discovery/v1/apis/gmail/v1/rest"];
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  const SCOPES = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events";
+  const SCOPES = "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/gmail.send";
 
   // var authorizeButton = document.getElementById('authorize_button');
   // var signoutButton = document.getElementById('signout_button');
@@ -21,32 +21,13 @@ import * as jwt from 'jsonwebtoken';
     *  On load, called to load the auth2 library and API client library.
     */
   export function handleClientLoad() {
-    gapi.load('client:auth2', initClient);
-    
+    gapi.load('client:auth2', initClient);   
   }
 
   export function initAuth()
   {
-    // gapi.auth2.init({
-    //   client_id: CLIENT_ID,
-    //   scope: SCOPES
-    // });
-    // insertEvents('2022-01-13T09:00:00-07:00','2022-01-13T15:00:00-07:00','title','description');
-
     //Good One
     handleAuthClick('lol');
-
-    // gapi.client.load('calendar','v3');
-    // gapi.auth.setToken();
-    // gapi.auth.authorize({
-    //   client_id:'231149043691-hcppd28j8ar799dei8c1fep3h3u5vhfn.apps.googleusercontent.com',
-    //   response_type:'id_token permission',
-    //   scope:"https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events",
-    //   immediate:false
-    // },function(response) {
-    //   console.log(response);
-    // });
-    // console.log(retVal);
   }
 
   export function testAdd()
@@ -54,10 +35,10 @@ import * as jwt from 'jsonwebtoken';
     insertEvents('2022-01-14T09:00:00-07:00','2022-01-14T15:00:00-07:00','title','description');
   }
 
-  function testAuthorize()
-  {
+  // function testAuthorize()
+  // {
     
-  } 
+  // } 
 
   /**
     *  Initializes the API client library and sets up sign-in state
@@ -156,33 +137,88 @@ import * as jwt from 'jsonwebtoken';
         console.log(resp);
       });
     }   
-    
-    // function listUpcomingEvents() {
-    //   gapi.client.calendar.events.list({
-    //     'calendarId': 'primary',
-    //     'timeMin': (new Date()).toISOString(),
-    //     'showDeleted': false,
-    //     'singleEvents': true,
-    //     'maxResults': 10,
-    //     'orderBy': 'startTime'
-    //   }).then(function(response) {
-    //      events = response.result.items;
-    //     appendPre('Upcoming events:');
 
-    //     if (events.length > 0) {
-    //       for (i = 0; i < events.length; i++) {
-    //         var event = events[i];
-    //         var when = event.start.dateTime;
-    //         if (!when) {
-    //           when = event.start.date;
-    //         }
-    //         appendPre(event.summary + ' (' + when + ')')
-    //       }
-    //     } else {
-    //       appendPre('No upcoming events found.');
-    //     }
-    //   });
-    // }
+    export function sendMail(To:any,Subject:any,Messsage:any) {
+      // const start = document.getElementById("start").value;
+      // const end = document.getElementById("end").value;
+      // const title = document.getElementById('title');
+      // const des = document.getElementById('des');
+      
+      const email = 'To' + ": "+ 'yp93ruby@gmail.com' + "\r\n" 
+                  + 'Subject' + ": "+ 'Reservation Confirmation' + "\r\n"
+                  + "\r\n" + "You have reserved a meeting in Room A at 2022/1/17 12:00. Modification of the meetings' details can be made on VRRA, thank you.";
+
+      const resource = {
+        'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
+      };
+      
+      const request = gapi.client.gmail.users.messages.send({
+        'userId':'jam99998888@gmail.com',
+        'resource':resource
+      });
+      request.execute(function(resp:any) {
+        console.log(resp);
+      });
+    }   
+    
+    export function listUpcomingEvents() {
+      // gapi.client.calendar.events.list({
+      //   'calendarId': 'primary',
+      //   'timeMin': (new Date()).toISOString(),
+      //   'showDeleted': false,
+      //   'singleEvents': true,
+      //   'maxResults': 10,
+      //   'orderBy': 'startTime'
+      // }).then(function(response) {
+      //    const events = response.result.items;
+      //   appendPre('Upcoming events:');
+
+      //   if (events.length > 0) {
+      //     for (i = 0; i < events.length; i++) {
+      //       const event = events[i];
+      //       const when = event.start.dateTime;
+      //       if (!when) {
+      //         when = event.start.date;
+      //       }
+      //       appendPre(event.summary + ' (' + when + ')')
+      //     }
+      //   } else {
+      //     appendPre('No upcoming events found.');
+      //   }
+      // });
+      
+      const request = gapi.client.calendar.events.list({
+        'calendarId': 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com',
+        //'timeMin': (new Date()).toISOString(),
+        // 'showDeleted': false,
+        // 'singleEvents': false,
+        // 'maxResults': 10,
+        // 'orderBy': 'startTime'
+      });
+      request.execute(function(resp:any) {
+        if(!resp.error) {
+          const calendarIds = [];
+          for(let i = 0; i < resp.items.length; i++) {
+            calendarIds.push(resp.items[i].id);
+          }
+          
+          console.log(calendarIds.length);
+          console.log(calendarIds[0].summary);
+          if (calendarIds.length > 0) {
+                for (let j = 0; j < calendarIds.length; j++) {
+                  const event = calendarIds[j];
+                  const when = event.start.dateTime;
+                  console.log(appendPre(event.summary + ' (' + when + ')'));
+                }
+              } else {
+                console.log(appendPre('No upcoming events found.'));
+              }
+        }
+        else {
+          console.log('bad');
+        }
+      });
+    }
 
 
   const authUrl = "https://www.googleapis.com/oauth2/v4/token";

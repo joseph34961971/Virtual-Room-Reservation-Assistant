@@ -86,6 +86,20 @@
         >
           signOut
         </el-button>
+        <el-button
+          class="button"
+          @click="sendNotification"
+        >
+          sendMail
+        </el-button>
+      </div>
+      <div class="flex-wrapper-two">
+        <el-button
+          class="button"
+          @click="testMongo"
+        >
+          mongoTest
+        </el-button>
       </div>
     </div>
   </div>
@@ -95,7 +109,8 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
-import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick} from '@/apis/googleCal';
+import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents} from '@/apis/googleCal';
+import {connectMongo} from '@/apis/mongoTest';
 
 @Component({
   name: 'dateSelect'
@@ -147,6 +162,17 @@ export default class test extends Vue {
   private signOut()
   {
     handleSignoutClick(this.form.firstName);
+  }
+
+  private sendNotification()
+  {
+    sendMail('a','d','ad');
+  }
+
+  private testMongo()
+  {
+    connectMongo();
+    listUpcomingEvents();
   }
 
   created()
