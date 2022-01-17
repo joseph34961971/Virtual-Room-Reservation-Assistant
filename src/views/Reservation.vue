@@ -7,7 +7,7 @@
     </el-page-header>
     <el-container class="app">
       <el-main style="margin:30px 200px 10px 200px;">
-        <el-table
+        <!-- <el-table
           v-loading="listLoading"
           :data="list"
           border
@@ -31,14 +31,22 @@
               </template>
             </el-table-column>
           </el-table-column>
-        </el-table>
+        </el-table> -->
       </el-main>
+      <el-dialog
+        title="test"
+        :visible.sync="vis"
+        width="80%"
+      >
+        <h1>haha</h1>
+      </el-dialog>
     </el-container>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
+import { listUpcomingEvents } from '@/apis/googleCal'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 
@@ -49,7 +57,19 @@ import About from './views/About.vue';
 export default class test extends Vue {
   private list = []
   private listLoading = true
+  private vis = false
+  private calendarId = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
 
+  create() {
+    this.getList
+  }
+
+  private getList() {
+    this.listLoading = true
+    const data = listUpcomingEvents()
+    console.log(data)
+    this.listLoading = false
+  }
 }
 </script>
 

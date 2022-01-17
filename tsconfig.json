@@ -22,7 +22,10 @@
       "jsonwebtoken",
       "jquery",
       "mongoose",
-      "node-fetch"
+      "node-fetch",
+      "express",
+      "mongodb",
+      "request"
     ],
     "paths": {
       "@/*": [

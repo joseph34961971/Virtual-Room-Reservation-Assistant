@@ -20,14 +20,23 @@
           </el-button>
         </div>
       </el-main>
+      <el-dialog
+        title="test"
+        :visible.sync="reservationFormVisible"
+        width="80%"
+      >
+        <h1>haha</h1>
+      </el-dialog>
     </el-container>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
+import { listUpcomingEvents, handleClientLoad } from '@/apis/googleCal'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
+import { ServerHeartbeatFailedEvent } from 'mongodb';
 
 @Component({
   name: 'dateSelect'
@@ -35,14 +44,28 @@ import About from './views/About.vue';
 
 export default class test extends Vue {
   private date = ''
+  private reservationFormVisible = false
+  private listLoading = false
   
+  create() {
+    handleClientLoad()
+  }
+
   private logout() {
     console.log('haha')
   }
 
   private enterDate() {
-    console.log(this.date)
-    this.$router.push('Reservation')
+    //this.$router.push('Reservation')
+    this.getList()
+    this.reservationFormVisible = true
+  }
+
+  private async getList() {
+    this.listLoading = true
+    const data = await listUpcomingEvents()
+    console.log(data)
+    this.listLoading = false
   }
 
 }
