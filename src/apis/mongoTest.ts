@@ -56,7 +56,7 @@ import { response } from "express";
       }
       ) 
       .then(response => {
-        console.log(response.status);
+        console.log(response);
         const ol = response;
         Promise.resolve(ol);
       })

@@ -196,7 +196,7 @@ export default class test extends Vue {
   ]
   private attendee = []
   
-  create() {
+  created() {
     handleClientLoad()
   }
 

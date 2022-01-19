@@ -115,7 +115,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
-import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents} from '@/apis/googleCal';
+import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents,getEvent} from '@/apis/googleCal';
 import {MongoAddUser,MongoGetUserList} from '@/apis/mongoTest';
 
 @Component({
@@ -170,14 +170,16 @@ export default class test extends Vue {
     handleSignoutClick(this.form.firstName);
   }
 
-  private sendNotification()
+  private async sendNotification()
   {
-    sendMail('jeff99998888@yahoo.com','d','ad');
+    //sendMail('jeff99998888@yahoo.com','d','ad');
+    const temp = await getEvent('vtchjno2gq18jhundmsr1rjbno@group.calendar.google.com','io3fiuum12prqoiicl2j8mfi20');
+    console.log(temp);
   }
 
   private async testMongo()
   {
-    MongoAddUser(this.form.userName,this.form.mail,this.form.password,'male',this.form.firstName);
+    MongoAddUser(this.form.userName,this.form.mail,this.form.password,'abcd',this.form.firstName);
   }
 
   private async getMongoUsers()
