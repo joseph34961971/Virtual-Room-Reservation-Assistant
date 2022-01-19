@@ -85,7 +85,7 @@ import * as jwt from 'jsonwebtoken';
   }
 
 
-  function insertEvents(start:any,end:any,title:any,des:any,calID:any) {
+  export function insertEvents(start:any,end:any,title:any,des:any,calID:any) {
       const userNames = {
         "UserID":"User01",
         "email":"aowjdia@ofwef.com"
