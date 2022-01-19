@@ -100,6 +100,12 @@
         >
           mongoTest
         </el-button>
+        <el-button
+          class="button"
+          @click="getMongoUsers"
+        >
+          mongoTest
+        </el-button>
       </div>
     </div>
   </div>
@@ -110,7 +116,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents} from '@/apis/googleCal';
-import {connectMongo} from '@/apis/mongoTest';
+import {MongoAddUser,MongoGetUserList} from '@/apis/mongoTest';
 
 @Component({
   name: 'registration'
@@ -171,16 +177,13 @@ export default class test extends Vue {
 
   private async testMongo()
   {
-    connectMongo();
-    const events=await listUpcomingEvents('ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com');
-    console.log(events);
-    if (events.length > 0) {
-       for (let j = 0; j < events.length; j++) {
-          const event = events[j];
-          const when = event.start.dateTime;
-          console.log(event.summary + ' (' + when + ')');
-      }
-    }
+    MongoAddUser(this.form.userName,this.form.mail,this.form.password,'male',this.form.firstName);
+  }
+
+  private async getMongoUsers()
+  {
+    const userList = await MongoGetUserList();
+    console.log(userList);
   }
 
   created()
