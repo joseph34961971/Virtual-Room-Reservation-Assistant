@@ -25,42 +25,44 @@ import { response } from "express";
 
   export async function MongoGetUserList():Promise<any>
   {    
-    return new Promise(resolve=>{
-    const ret = window.fetch("http://localhost:4000/user", {
-      method: 'GET',
-      mode :'no-cors',
-      // headers: {'Content-Type':'application/json',
-      //           'Host':'localhost:4000'},    
-      })
-      .then(response => {
-        console.log('response:');
-        console.log( response);
-        resolve(response.body);
-      })
-      .then(result => {
-        console.log('result:' + result);
-        resolve(result);
-      })
-      .catch(error => console.log('error', error));
-
-      resolve(ret);
-    })
-
-    // const response = await fetch("http://localhost:4000/user", {
+    // return new Promise(resolve=>{
+    // const ret = window.fetch("http://localhost:4000/user", {
     //   method: 'GET',
     //   mode :'no-cors',
-    //   headers: {'Content-Type':'application/json',
-    //             'Host':'localhost:4000'},    
-    //   }) 
+    //   // headers: {'Content-Type':'application/json',
+    //   //           'Host':'localhost:4000'},    
+    //   })
     //   .then(response => {
-    //     console.log(response.json());
+    //     console.log('response:');
+    //     console.log( response);
+    //     resolve(response.body);
     //   })
     //   .then(result => {
-    //     console.log(result);
+    //     console.log('result:' + result);
+    //     resolve(result);
     //   })
     //   .catch(error => console.log('error', error));
 
-    //   return response;
+    //   resolve(ret);
+    // })
+
+    await fetch("http://localhost:4000/user", {
+      method: 'GET',
+      mode :'no-cors',
+      headers: {'Content-Type':'application/json',
+                'Host':'localhost:4000'},    
+      }
+      ) 
+      .then(response => {
+        console.log(response.url);
+        return response.formData;
+      })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(error => console.log('error', error));
+
+
   }
     
   
