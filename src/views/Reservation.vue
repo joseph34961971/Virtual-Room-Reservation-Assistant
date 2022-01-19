@@ -66,8 +66,6 @@ export default class test extends Vue {
 
   private getList() {
     this.listLoading = true
-    const data = listUpcomingEvents()
-    console.log(data)
     this.listLoading = false
   }
 }

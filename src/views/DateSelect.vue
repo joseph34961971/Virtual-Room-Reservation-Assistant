@@ -9,7 +9,7 @@
       <el-main style="margin:30px 200px 10px 200px;">
         <el-select
           v-model="calendarID"
-          placeholder="選擇會議室"
+          placeholder="請選擇會議室"
           style="width: 200px"
           class="filter-item"
         >
@@ -20,25 +20,94 @@
             :value="item.value"
           />
         </el-select>
-        <el-calendar
-          v-model="date"
+        <template>
+          <div class="block" style="margin-top:20px;">
+            <el-date-picker
+              v-model="date"
+              type="date"
+              placeholder="選擇日期"
+              value-format="yyyy-MM-dd"
+              size="large"
+            >
+            </el-date-picker>
+          </div>
+        </template>
+        <div
+          align="right"
         >
-        </el-calendar>
-        <div align="right">
           <el-button
             type="success"
             @click="enterDate"
           >
             確認
           </el-button>
+          <el-button
+            type="success"
+            @click="getList"
+          >
+            getList
+          </el-button>
         </div>
       </el-main>
       <el-dialog
-        title="test"
+        title="Reservation"
         :visible.sync="reservationFormVisible"
-        width="80%"
+        width="40%"
       >
-        <h1>haha</h1>
+        <el-form
+          ref="dataForm"
+          :model="eventData"
+          label-position="left"
+          label-width="100px"
+          style="width: 400px; margin-left:120px;"
+        >
+          <el-form-item
+            label="會議名稱"
+          >
+            <el-input
+              v-model="eventData.title"
+              placeholder="請輸入會議名稱"
+            />
+          </el-form-item>
+          <el-form-item
+            label="會議時間"
+          >
+            <el-time-select
+              placeholder="起始时间"
+              v-model="startTime"
+              :picker-options="{
+                start: '08:00',
+                step: '01:00',
+                end: '17:00'
+              }">
+            </el-time-select>
+            <el-time-select
+              placeholder="結束时间"
+              v-model="endTime"
+              :picker-options="{
+                start: '09:00',
+                step: '01:00',
+                end: '18:00',
+                minTime: startTime
+              }">
+            </el-time-select>
+          </el-form-item>
+          <el-form-item
+            label="參與者"
+          >
+            <el-input
+              type="textarea"
+              :rows="5"
+              placeholder="請輸入參與者"
+              v-model="eventData.description"
+            >
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="handleReservation">確認預約</el-button>
+            <el-button @click="reservationFormVisible = false">取消</el-button>
+          </el-form-item>
+        </el-form>
       </el-dialog>
     </el-container>
   </div>
@@ -46,10 +115,12 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad } from '@/apis/googleCal'
+import { listUpcomingEvents, handleClientLoad, insertEvents } from '@/apis/googleCal'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import { ServerHeartbeatFailedEvent } from 'mongodb';
+import { type } from 'jquery';
+
 
 @Component({
   name: 'dateSelect'
@@ -68,13 +139,19 @@ export default class test extends Vue {
   ]
 
   private calendarID = ''
+  private startTime = ''
+  private endTime = ''
+  private eventData = {
+    title: '',
+    startTime: '',
+    endTime: '',
+    description: '',
+    calendarID: ''
+  }
   
   create() {
     handleClientLoad()
-  }
-
-  private logout() {
-    console.log('haha')
+    this.getList()
   }
 
   private enterDate() {
@@ -82,6 +159,7 @@ export default class test extends Vue {
     if (this.calendarID != '') {
       this.getList()
       console.log(this.calendarID)
+      console.log(this.date)
       this.reservationFormVisible = true
     }
     else {
@@ -96,9 +174,24 @@ export default class test extends Vue {
 
   private async getList() {
     this.listLoading = true
-    const data = await listUpcomingEvents()
+    const data = await listUpcomingEvents(this.calendarID)
     console.log(data)
     this.listLoading = false
+  }
+
+  private handleReservation() {
+    this.eventData.calendarID = this.calendarID
+    this.eventData.startTime = this.date + "T" + this.startTime + ":00" + "+08:00"
+    this.eventData.endTime = this.date + "T" + this.endTime + ":00" + "+08:00"
+    console.log(this.eventData)
+    insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, this.eventData.description, this.eventData.calendarID)
+    this.$notify({
+      title: 'Success',
+      message: 'Reservate Successfully',
+      type: 'success',
+      duration: 2000
+    })
+    this.reservationFormVisible = false
   }
 
 }
