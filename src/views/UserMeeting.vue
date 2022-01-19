@@ -23,34 +23,41 @@ import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 
 
-export default class test extends Vue{
-  private data(){
-    return{
-      tableData: [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
-    }
-  }
+export default{
+  name: 'table',
+data(){
+return{
+tableData:[{
+date: '2016-05-02',
+name: '王小虎',
+address: '上海市普陀區金沙江路 1518 弄'
+}, {
+date: '2016-05-04',
+name: '王小虎',
+address: '上海市普陀區金沙江路 1517 弄'
+}, {
+date: '2016-05-01',
+name: '王小虎',
+address: '上海市普陀區金沙江路 1519 弄'
+}, {
+date: '2016-05-03',
+name: '王小虎',
+address: '上海市普陀區金沙江路 1516 弄'
+}],
+tableKey: [{
+name: 'date',
+value: '日期'
+},{
+name: '姓名',
+value: 'name'
+},{
+name: '地址',
+value: 'address'
+}]
 }
+}
+}
+
 </script>
 
 <style lang="scss" scoped>
