@@ -1,5 +1,4 @@
 import {gapi} from 'gapi-script';
-import * as jwt from 'jsonwebtoken';
 
   const CLIENT_ID = '231149043691-hcppd28j8ar799dei8c1fep3h3u5vhfn.apps.googleusercontent.com';
   const API_KEY = 'AIzaSyBSRSGlpRY5WxxwglKjpqqi2rDQKCR3ymI';
