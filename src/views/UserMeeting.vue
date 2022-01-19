@@ -2,21 +2,50 @@
   <div class="UM">
     <div class="flex-wrapper-one">
       <p class="input">My Meeting</p>
-      <div class="meeting">
-      <div>
-          <p>2000/12/12</p>
-          <p>Room3</p>
-      </div>
-      </div>
-      <div class="meeting">
-      <div>
-          <p>2000/12/12</p>
-          <p>Room3</p>
-      </div>
-      </div>
+        <el-table :data ="tableData" style="width: 100%">
+          <el-table-column prop="date" label="Date" width="180" />
+          <el-table-column prop="name" label="Name" width="180" />
+          <el-table-column prop="address" label="Address" />
+        </el-table>
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
+import { component } from 'vue/types/umd';
+import About from './views/About.vue';
+
+
+export default class test extends Vue{
+  private data(){
+    return{
+      tableData: [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .flex-wrapper-one {
