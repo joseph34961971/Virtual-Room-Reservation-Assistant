@@ -1,55 +1,54 @@
 <template>
   <div class="UM">
-    <div class="flex-wrapper-one">
-      <p class="input">My Meeting</p>
-        <el-table :data ="tableData" style="width: 100%">
-          <el-table-column prop="date" label="Date" width="180" />
-          <el-table-column prop="name" label="Name" width="180" />
-          <el-table-column prop="address" label="Address" />
-        </el-table>
-    </div>
+    <el-page-header
+      content="User Meeting Page"
+      @back="$router.back(-1)"
+    >
+    </el-page-header>
+
+    <el-button
+      @click="getEventList"
+    >
+      getList
+    </el-button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { component } from 'vue/types/umd';
-import About from './views/About.vue';
+import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail } from '@/apis/googleCal'
+import { MongoGetUserList } from '@/apis/mongoTest'
 
+@Component({
+  name: 'dateSelect'
+})
 
-export default{
-  name: 'table',
-data(){
-return{
-tableData:[{
-date: '2016-05-02',
-name: '王小虎',
-address: '上海市普陀區金沙江路 1518 弄'
-}, {
-date: '2016-05-04',
-name: '王小虎',
-address: '上海市普陀區金沙江路 1517 弄'
-}, {
-date: '2016-05-01',
-name: '王小虎',
-address: '上海市普陀區金沙江路 1519 弄'
-}, {
-date: '2016-05-03',
-name: '王小虎',
-address: '上海市普陀區金沙江路 1516 弄'
-}],
-tableKey: [{
-name: 'date',
-value: '日期'
-},{
-name: '姓名',
-value: 'name'
-},{
-name: '地址',
-value: 'address'
-}]
-}
-}
+export default class test extends Vue {
+  private userIDEvent = "dqqvsk5f6s60e44d3bkfjiepns"
+  private userName = ''
+  private userEmail = ''
+  private roomOptions = [
+    { value: 'okuif14nfltn6dumpe0p187dms@group.calendar.google.com', label: 'Room1' },
+    { value: 'jteos2j98hjiu82j78e89quoss@group.calendar.google.com', label: 'Room2' },
+    { value: '6jrgjttjpsnt5v519rr84o8m90@group.calendar.google.com', label: 'Room3' },
+    { value: '3ctok2t3skph001bj29s4onfm4@group.calendar.google.com', label: 'Room4' },
+    { value: 'jo63b6s8sn678tcesnpge03a6k@group.calendar.google.com', label: 'Room5' }
+  ]
+
+  create() {
+    handleClientLoad()
+    this.getUserInfo()
+  }
+  
+  private getUserInfo() {
+    console.log('haha')
+  }
+
+  private getEventList() {
+    for (let i in this.roomOptions) {
+      console.log(this.roomOptions[i].value)
+    }
+  }
 }
 
 </script>

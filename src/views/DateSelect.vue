@@ -145,6 +145,7 @@ import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import { ServerHeartbeatFailedEvent } from 'mongodb';
 import { type } from 'jquery';
+import { get } from 'http';
 
 
 @Component({
@@ -195,14 +196,27 @@ export default class test extends Vue {
     { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
   ]
   private attendee = []
+  private userIDEvent = "dqqvsk5f6s60e44d3bkfjiepns"
+  private userName = ''
+  private userEmail = ''
   
   create() {
     handleClientLoad()
+    this.getUserInfo()
+  }
+
+  private getUserInfo() {
+
   }
 
   private async enterDate() {
     //this.$router.push('Reservation')
     //this.timeOptions = this.defaultTimeOptions
+
+    //insertEvents('2022-01-01T09:00:00-08:00','2022-01-01T15:00:00-08:00','joseph','joseph34961971@gmail.com','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
+    const temp = await listUpcomingEvents('ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
+    console.log(temp)
+    
 
     for (let i in this.timeOptions) {
       this.timeOptions[i].disabled = false
@@ -292,7 +306,7 @@ export default class test extends Vue {
     console.log(this.attendee)
     for (let i in this.attendee) {
       console.log(this.attendee[i])
-      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'you have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
     }
 
     this.reservationFormVisible = false
