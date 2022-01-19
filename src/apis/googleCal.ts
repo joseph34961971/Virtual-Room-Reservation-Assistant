@@ -112,6 +112,22 @@ import {gapi} from 'gapi-script';
       });
     }   
 
+    export function deleteEvents(calID:any,eventID:any) {
+      const userNames = {
+        "UserID":"User01",
+        "email":"aowjdia@ofwef.com"
+      };
+      JSON.stringify(userNames)
+      
+      const request = gapi.client.calendar.events.delete({
+        'calendarId': calID,
+        'eventId': eventID
+      });
+      request.execute(function(resp:any) {
+        console.log(resp);
+      });
+    }   
+
     export function sendMail(To:any,Subject:any,Messsage:any) {   
       /*const email = 'To' + ": "+ 'yp93ruby@gmail.com' + "\r\n" 
                   + 'Subject' + ": "+ 'Reservation Confirmation' + "\r\n"
