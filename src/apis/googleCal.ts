@@ -112,6 +112,35 @@ import {gapi} from 'gapi-script';
       });
     }   
 
+    export function updateEvents(start:any,end:any,title:any,des:any,calID:any,eventID:any) {
+      const userNames = {
+        "UserID":"User01",
+        "email":"aowjdia@ofwef.com"
+      };
+      JSON.stringify(userNames)
+
+      const resource = {
+      "summary": title,
+      "description": des,
+        "location": "Tapie",
+        "start": {
+          "dateTime": start
+        },
+        "end": {
+          "dateTime": end
+        }
+      };
+      
+      const request = gapi.client.calendar.events.update({
+        'calendarId': calID,
+        'eventId':eventID,
+        'resource': resource
+      });
+      request.execute(function(resp:any) {
+        console.log(resp);
+      });
+    }
+
     export function deleteEvents(calID:any,eventID:any) {
       const userNames = {
         "UserID":"User01",
@@ -201,6 +230,30 @@ import {gapi} from 'gapi-script';
                   console.log('No upcoming events found.');
                   resolve(0);
                 }
+          }
+          else {
+            console.log('bad');
+            resolve(0);
+          }
+        });
+      }) 
+    }
+
+    export async function getEvent(calID:any,eventID:any):Promise<any> {        
+      const request = gapi.client.calendar.events.get({
+        'calendarId': calID,
+        'eventId':eventID
+        //'timeMin': (new Date()).toISOString(),
+        // 'showDeleted': false,
+        // 'singleEvents': false,
+        // 'maxResults': 10,
+        // 'orderBy': 'startTime'
+      });
+      return new Promise(resolve=>{
+        request.execute(function(resp:any) {
+          if(!resp.error) {
+            const output = resp;
+            resolve(output);
           }
           else {
             console.log('bad');

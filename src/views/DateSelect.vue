@@ -200,7 +200,7 @@ export default class test extends Vue {
   private userName = ''
   private userEmail = ''
   
-  create() {
+  created() {
     handleClientLoad()
     this.getUserInfo()
   }
