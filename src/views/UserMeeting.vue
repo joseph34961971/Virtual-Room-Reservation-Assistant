@@ -7,12 +7,6 @@
           <el-table-column prop="name" label="Name" width="180" />
           <el-table-column prop="address" label="Address" />
         </el-table>
-        <el-button
-            type="success"
-            @click="data"
-          >
-          確認
-          </el-button>
     </div>
   </div>
 </template>

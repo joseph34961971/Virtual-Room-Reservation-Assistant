@@ -183,10 +183,12 @@ import {gapi} from 'gapi-script';
                   resolve(calendarIds); 
                 } else {
                   console.log('No upcoming events found.');
+                  resolve(0);
                 }
           }
           else {
             console.log('bad');
+            resolve(0);
           }
         });
       }) 
