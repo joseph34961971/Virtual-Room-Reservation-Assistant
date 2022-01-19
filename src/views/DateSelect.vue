@@ -175,6 +175,14 @@ export default class test extends Vue {
   private async getList() {
     this.listLoading = true
     const data = await listUpcomingEvents(this.calendarID)
+    console.log(typeof(data))
+    console.log('haga')
+    if (data == 0) {
+      console.log('nothing')
+    }
+    else {
+      console.log(data)
+    }
     console.log(data)
     this.listLoading = false
   }

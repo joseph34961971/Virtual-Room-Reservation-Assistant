@@ -173,7 +173,7 @@ import {gapi} from 'gapi-script';
             }         
             const reEvent = calendarIds;
             console.log(calendarIds.length);
-            console.log(calendarIds[0].start.dateTime);
+            //console.log(calendarIds[0].start.dateTime);
             if (calendarIds.length > 0) {
                   for (let j = 0; j < calendarIds.length; j++) {
                     const event = calendarIds[j];
