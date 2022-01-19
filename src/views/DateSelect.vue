@@ -52,14 +52,14 @@
       <el-dialog
         title="Reservation"
         :visible.sync="reservationFormVisible"
-        width="40%"
+        width="60%"
       >
         <el-form
           ref="dataForm"
           :model="eventData"
-          label-position="left"
           label-width="100px"
-          style="width: 400px; margin-left:120px;"
+          style="width: 700px; margin-left:120px;"
+          align="left"
         >
           <el-form-item
             label="會議名稱"
@@ -98,18 +98,37 @@
             </el-time-select> -->
           </el-form-item>
           <el-form-item
-            label="參與者"
+            label="詳細資訊"
           >
             <el-input
               type="textarea"
               :rows="5"
-              placeholder="請輸入參與者"
+              placeholder="請輸入會議資訊"
               v-model="eventData.description"
             >
             </el-input>
           </el-form-item>
+          <el-form-item
+            label="參與者"
+          >
+            <template>
+              <el-transfer
+                filterable
+                filter-placeholder="請輸入邀請人信箱"
+                v-model="attendee"
+                :data="users"
+                :titles="['使用者列表', '被邀請']"
+              >
+              </el-transfer>
+            </template>
+          </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleReservation">確認預約</el-button>
+            <el-button
+              type="primary"
+              @click="handleReservation"
+            >
+              確認預約
+            </el-button>
             <el-button @click="reservationFormVisible = false">取消</el-button>
           </el-form-item>
         </el-form>
@@ -121,6 +140,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
 import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail } from '@/apis/googleCal'
+import { MongoGetUserList } from '@/apis/mongoTest'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import { ServerHeartbeatFailedEvent } from 'mongodb';
@@ -168,6 +188,13 @@ export default class test extends Vue {
     description: '',
     calendarID: ''
   }
+
+  private users = [
+    { label: 'joseph34961971@gmail.com', key: 'joseph34961971@gmail.com', disabled: false},
+    { label: 'jam99998888@gmail.com', key: 'jam99998888@gmail.com', disabled: false},
+    { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
+  ]
+  private attendee = []
   
   create() {
     handleClientLoad()
@@ -262,6 +289,16 @@ export default class test extends Vue {
       type: 'success',
       duration: 2000
     })
+    console.log(this.attendee)
+    for (let i in this.attendee) {
+      console.log(this.attendee[i])
+      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'you have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+    }
+
+    this.reservationFormVisible = false
+  }
+
+  private handleCancel() {
     this.reservationFormVisible = false
   }
 
