@@ -141,7 +141,7 @@ import {gapi} from 'gapi-script';
       };
       
       const request = gapi.client.gmail.users.messages.send({
-        'userId':'jam99998888@gmail.com',
+        'userId':'me',
         'resource':resource
       });
       request.execute(function(resp:any) {

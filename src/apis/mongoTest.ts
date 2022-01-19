@@ -50,15 +50,21 @@ import { response } from "express";
       method: 'GET',
       mode :'no-cors',
       headers: {'Content-Type':'application/json',
-                'Host':'localhost:4000'},    
+                'Host':'localhost:4000',
+                'Cache-Control':'no-cache',
+                'redirect': 'follow'},    
       }
       ) 
       .then(response => {
-        console.log(response.url);
-        return response.formData;
+        console.log(response.status);
+        const ol = response;
+        Promise.resolve(ol);
       })
       .then(result => {
         console.log(result);
+      })
+      .then(user => {
+        console.log('user:'+user);
       })
       .catch(error => console.log('error', error));
 

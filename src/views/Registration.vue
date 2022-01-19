@@ -172,7 +172,7 @@ export default class test extends Vue {
 
   private sendNotification()
   {
-    sendMail('a','d','ad');
+    sendMail('email','d','ad');
   }
 
   private async testMongo()
