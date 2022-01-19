@@ -169,11 +169,11 @@ export default class test extends Vue {
     sendMail('a','d','ad');
   }
 
-  async testMongo()
+  private async testMongo()
   {
-    //connectMongo();
-    const events=await listUpcomingEvents();
-    console.log(await events[0].start.dateTime);
+    connectMongo();
+    const events=await listUpcomingEvents('ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com');
+    console.log(events);
     if (events.length > 0) {
        for (let j = 0; j < events.length; j++) {
           const event = events[j];

@@ -1,8 +1,5 @@
 import {gapi} from 'gapi-script';
-// import { JWT } from 'google-auth-library';
 import * as jwt from 'jsonwebtoken';
-// const sa = require('../../serviceAccount.json');
-
 
   const CLIENT_ID = '231149043691-hcppd28j8ar799dei8c1fep3h3u5vhfn.apps.googleusercontent.com';
   const API_KEY = 'AIzaSyBSRSGlpRY5WxxwglKjpqqi2rDQKCR3ymI';
@@ -32,7 +29,7 @@ import * as jwt from 'jsonwebtoken';
 
   export function testAdd()
   {
-    insertEvents('2022-01-14T09:00:00-07:00','2022-01-14T15:00:00-07:00','title','description');
+    insertEvents('2022-01-14T09:00:00-07:00','2022-01-14T15:00:00-07:00','title','description','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com');
   }
 
 
@@ -114,7 +111,7 @@ import * as jwt from 'jsonwebtoken';
   }
 
 
-  function insertEvents(start:any,end:any,title:any,des:any) {
+  function insertEvents(start:any,end:any,title:any,des:any,calID:any) {
       // const start = document.getElementById("start").value;
       // const end = document.getElementById("end").value;
       // const title = document.getElementById('title');
@@ -133,7 +130,7 @@ import * as jwt from 'jsonwebtoken';
       };
       
       const request = gapi.client.calendar.events.insert({
-        'calendarId': 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com',
+        'calendarId': calID,
         'resource': resource
       });
       request.execute(function(resp:any) {
@@ -185,9 +182,9 @@ import * as jwt from 'jsonwebtoken';
       items: IIEvent[]
     }
 
-    export async function listUpcomingEvents():Promise<any> {        
+    export async function listUpcomingEvents(calID:any):Promise<any> {        
       const request = gapi.client.calendar.events.list({
-        'calendarId': 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com',
+        'calendarId': calID,
         //'timeMin': (new Date()).toISOString(),
         // 'showDeleted': false,
         // 'singleEvents': false,
