@@ -215,10 +215,12 @@
 
 <script lang="ts" setup>
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent, deleteEvents, updateEvents } from '@/apis/googleCal'
+import { listEvents, insertEvents, sendMail, getEvents, updateEvents, deleteEvents } from '@/apis/testGoogleApis'
 import { MongoGetUserList } from '@/apis/mongoTest'
-import { event } from 'jquery'
+import { data, event } from 'jquery'
 import { get } from 'http'
+import { TimePicker } from 'element-ui'
+import { json } from 'body-parser'
 
 @Component({
   name: 'dateSelect'
@@ -286,13 +288,14 @@ export default class test extends Vue {
   private listLoading = false
 
   created() {
-    handleClientLoad()
     this.getUserInfo()
     this.getEventList()
+    //deleteEvents("okuif14nfltn6dumpe0p187dms@group.calendar.google.com", "d4a7gvn7gt5sgcaldgeeh2eadg")
   }
   
   private async getUserInfo() {
-    const temp = await getEvent(this.userCalendarID, this.userEventID)
+    let t = await getEvents(this.userCalendarID, this.userEventID)
+    const temp = JSON.parse(t)
     console.log(temp)
     this.userName = temp.summary
     this.userEmail = temp.description
@@ -304,13 +307,14 @@ export default class test extends Vue {
     await this.getUserInfo()
     for (let i in this.roomOptions) {
       //console.log(this.roomOptions[i].value)
-      const data = await listUpcomingEvents(this.roomOptions[i].value)
+      let temp = await listEvents(this.roomOptions[i].value)
+      const data = JSON.parse(temp)
       //console.log(data)
       //console.log('****************************')
       if (data != 0) {
-        for (let j in data) {
-          console.log(data[j])
-          if (data[j].location.search(this.userEmail) != -1) {
+        for (let j = 0; j < data.items.length; j++) {
+          console.log(data.items[j])
+          if (data.items[j].location.search(this.userEmail) != -1) {
             // let tempEvent = this.defaultEvent
             // tempEvent.title = data[j].summary
             // tempEvent.room = data[j].organizer.displayName
@@ -320,20 +324,23 @@ export default class test extends Vue {
             // tempEvent.attendee = data[j].description
 
             const tempEvent = {
-              title: data[j].summary,
-              room: data[j].organizer.displayName,
-              startTime: data[j].start.dateTime,
-              endTime: data[j].end.dateTime,
-              timeZone: data[j].start.timeZone,
-              attendee: data[j].location,
-              description: data[j].description,
-              eventID: data[j].id,
+              title: data.items[j].summary,
+              room: data.items[j].organizer.displayName,
+              startTime: data.items[j].start.dateTime,
+              endTime: data.items[j].end.dateTime,
+              timeZone: data.items[j].start.timeZone,
+              attendee: data.items[j].location,
+              description: data.items[j].description,
+              eventID: data.items[j].id,
               calendarID: this.roomOptions[i].value
             }
             
             this.eventList.push(tempEvent)
           }
         }
+      }
+      else {
+        console.log('nothingggg')
       }
     }
     console.log('===============')
@@ -376,15 +383,16 @@ export default class test extends Vue {
       this.timeOptions[i].disabled = false
     }
 
-    const data = await listUpcomingEvents(this.eventData.calendarID)
+    let t = await listEvents(this.eventData.calendarID)
+    const data = JSON.parse(t)
     if (data == 0) {
       console.log('nothing')
     }
     else {
       //console.log(typeof(data))
-      for (let i in data) {
-        let tempStartTime = data[i].start.dateTime
-        let tempEndTime = data[i].end.dateTime
+      for (let i = 0; i <  data.items.length; i++) {
+        let tempStartTime = data.items[i].start.dateTime
+        let tempEndTime = data.items[i].end.dateTime
         tempStartTime = tempStartTime.split('T')
         //console.log(tempStartTime[0])
         //console.log(this.date)
@@ -431,7 +439,7 @@ export default class test extends Vue {
         sendMail(this.formEventData.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
       }
 
-      await updateEvents(this.eventData.startTime, this.eventData.endTime, this.formEventData.title, this.formEventData.description, this.eventData.calendarID, attendeeStr, this.eventData.eventID)
+      await updateEvents(this.eventData.startTime, this.eventData.endTime, this.formEventData.title, this.formEventData.description, attendeeStr, this.eventData.calendarID, this.eventData.eventID)
       this.editEventDialogVisible = false
       console.log(this.formEventData)
       this.getEventList()

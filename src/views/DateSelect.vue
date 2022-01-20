@@ -145,7 +145,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent } from '@/apis/googleCal'
+import { listEvents, insertEvents, sendMail, getEvents } from '@/apis/testGoogleApis'
 import { MongoGetUserList } from '@/apis/mongoTest'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
@@ -215,12 +215,12 @@ export default class test extends Vue {
   // }
   
   async created() {
-    handleClientLoad()
     this.getUserInfo()
   }
 
   private async getUserInfo() {
-    const temp = await getEvent(this.userCalendarID, this.userEventID)
+    let t = await getEvents(this.userCalendarID, this.userEventID)
+    const temp = JSON.parse(t)
     console.log(temp)
     this.userName = temp.summary
     this.userEmail = temp.description
@@ -243,17 +243,24 @@ export default class test extends Vue {
     if (this.calendarID != '' && this.date != '') {
       
       this.listLoading = true
-      const data = await listUpcomingEvents(this.calendarID)
+      let temp = await listEvents(this.calendarID)
+      const data = JSON.parse(temp)
+      console.log('this is data')
+      console.log(data)
       if (data == 0) {
         console.log('nothing')
       }
       else {
         let c = 0
         //console.log(typeof(data))
-        for (let i in data) {
-          let tempStartTime = data[i].start.dateTime
-          let tempEndTime = data[i].end.dateTime
+        for (let i = 0; i < data.items.length; i++) {
+          console.log('haaaaa')
+          console.log(data.items[i])
+          let tempStartTime = data.items[i].start.dateTime
+          let tempEndTime = data.items[i].end.dateTime
           tempStartTime = tempStartTime.split('T')
+          console.log('**********************************')
+          console.log(tempStartTime)
           //console.log(tempStartTime[0])
           //console.log(this.date)
           if (tempStartTime[0] != this.date) {
@@ -269,7 +276,6 @@ export default class test extends Vue {
           }
         }
       //console.log(c)
-
       }
       this.listLoading = false
       
@@ -298,7 +304,7 @@ export default class test extends Vue {
 
   private async getList() {
     this.listLoading = true
-    const data = await listUpcomingEvents(this.calendarID)
+    const data = await listEvents(this.calendarID)
     console.log(typeof(data))
     console.log('haga')
     if (data == 0) {
@@ -314,7 +320,7 @@ export default class test extends Vue {
     this.listLoading = false
   }
 
-  private handleReservation() {
+  private async handleReservation() {
     this.eventData.calendarID = this.calendarID
     let tempTime = this.selectedTime.split(' - ')
     this.startTime = tempTime[0]
@@ -335,7 +341,7 @@ export default class test extends Vue {
     }
     console.log(attendeeStr)
 
-    insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, this.eventData.description, attendeeStr, this.eventData.calendarID)
+    await insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, this.eventData.description, attendeeStr, this.eventData.calendarID)
     this.$notify({
       title: 'Success',
       message: 'Reservate Successfully',
@@ -356,6 +362,7 @@ export default class test extends Vue {
 
   private assignToDate(data: any) {
     this.date = data.day
+    //console.log(this.date)
   }
 
 }
