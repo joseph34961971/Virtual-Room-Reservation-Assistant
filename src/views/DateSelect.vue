@@ -363,12 +363,13 @@ export default class test extends Vue {
 </script>
 
 <style lang="scss">
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #409EFF;
+  color: #3c925d;
   margin-top: 60px;
 }
 </style>
