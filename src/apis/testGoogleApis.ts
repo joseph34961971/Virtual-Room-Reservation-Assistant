@@ -119,7 +119,9 @@ export async function insertEvents(start:any,end:any,title:any,des:any,location:
             resolve(res.text());
             
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {console.log('error', error);
+      resolve(0);
+    });
 
     })
     
@@ -137,7 +139,9 @@ export async function insertEvents(start:any,end:any,title:any,des:any,location:
             resolve(res.text());
             
       })
-      .catch(error => console.log('error', error));
+      .catch(error => {console.log('error', error)
+        resolve(0);
+        });
 
     })
   }
