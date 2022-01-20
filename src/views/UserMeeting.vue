@@ -125,13 +125,13 @@
     <el-dialog
       title="Update Event"
       :visible.sync="editEventDialogVisible"
-      width="60%"
+      width="750px"
     >
       <el-form
         ref="dataForm"
         :model="formEventData"
-        label-width="100px"
-        style="width: 700px; margin-left:120px;"
+        label-width="80px"
+        style="width: 700px; margin-left:0px;"
         align="left"
       >
         <el-form-item
@@ -145,12 +145,13 @@
         </el-form-item>
         <el-form-item
           label="會議時間"
+          style="width: 95%"
           :required="true"
         >
           <el-select
             v-model="formEventData.selectedTime"
             :placeholder="defaultTime"
-            style="width: 200px"
+            style="width: 95%"
             class="filter-item"
           >
             <el-option
@@ -178,6 +179,7 @@
           <el-input
             type="textarea"
             :rows="5"
+            style="width: 95%"
             placeholder="請輸入會議資訊"
             v-model="formEventData.description"
           >
@@ -201,11 +203,17 @@
         <el-form-item>
           <el-button
             type="primary"
+            style="width: 95%; margin-bottom:10px; margin-top:40px;"
             @click="updateData"
           >
             確認編輯
+          </el-button><br>
+          <el-button 
+          style="width: 95%"
+          @click="reservationFormVisible = false"
+          >
+            取消
           </el-button>
-          <el-button @click="reservationFormVisible = false">取消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
