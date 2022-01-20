@@ -97,7 +97,7 @@ export default class test extends Vue {
 .ra-register {
   width: calc(100%);
   background-color: rgba(255, 255, 255, 1);
-  padding: 78px 420px 82px 72px;
+  padding: 0px 420px 80px 80px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -115,7 +115,7 @@ export default class test extends Vue {
   background-color: rgba(255, 255, 255, 1);
   margin-left: 348px;
   border-radius: 20px;
-  padding: 69px 134px 130px;
+  padding: 40px 100px 100px;
   box-shadow: 5px 8px 20px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -131,7 +131,7 @@ export default class test extends Vue {
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
   text-align: center;
-  margin-bottom: 97px;
+  margin-bottom: 300px;
 }
 .text-field {
   width: calc(100%);
@@ -147,16 +147,17 @@ export default class test extends Vue {
   display: flex;
   flex-direction: column;
   align-items: left;
-  width: 296px;
+  width: 328px;
 }
 .label {
   font-family: "Arial";
   font-size: 16px;
   // font-weight: 400;
   // line-height: 16px;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.4);
   align-self: flex-start;
   align-items: left;
+  margin-bottom: 2px;
 }
 .input-two {
   width: calc(100%);
@@ -166,6 +167,7 @@ export default class test extends Vue {
   // line-height: 24px;
   // color: rgba(0, 0, 0, 0.87);
   align-self: flex-start;
+  margin-bottom: 0px;
 }
 .text-field-two {
   width: calc(100%);
@@ -194,7 +196,6 @@ export default class test extends Vue {
   font-weight: 400;
   line-height: 16px;
   color: rgba(115, 175, 121, 1);
-  align-self: stretch;
   align-items: left;
   margin-right: 14px;
   display: flex;
