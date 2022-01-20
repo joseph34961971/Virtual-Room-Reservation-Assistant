@@ -6,15 +6,17 @@
         <div class='fright'>
           <el-button
           type="primary"
+          class="button"
           @click="$router.push('/')"
         >
-          <i class="el-icon-s-home"></i>
+        RESERVE
         </el-button>
         <el-button
           type="primary"
+          class="button"
           @click="$router.push('UserMeeting')"
         >
-          <i class="el-icon-s-custom"></i>
+        MY MEETING
         </el-button>
         </div>
         </div>
@@ -62,6 +64,18 @@ export default class test extends Vue {
   color: rgba(115, 175, 121, 1);
   margin-left:60px;
 }
+.button {
+  background-color: rgba(115, 175, 121, 1);
+  color: rgba(255, 255, 255, 1);
+  font-weight: bolder;
+  font-family: "Arial";
+  border-radius: 4px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
