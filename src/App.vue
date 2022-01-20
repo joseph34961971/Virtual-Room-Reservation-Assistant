@@ -57,7 +57,7 @@ export default class test extends Vue {
   float:right;
 }
 .fcenter {
-  font-family: "Sora";
+  font-family: "Arial";
   font-size: 64px;
   font-weight: 400;
   line-height: 24px;

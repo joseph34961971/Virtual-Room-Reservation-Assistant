@@ -1,10 +1,10 @@
 <template>
   <div class="UM">
-    <el-page-header
+    <!--<el-page-header
       content="User Meeting Page"
       @back="$router.back(-1)"
     >
-    </el-page-header>
+    </el-page-header>-->
     <p class="mylogo">My Meetings</p>
     <!-- <el-button
       @click="getEventList"
@@ -474,16 +474,16 @@ export default class test extends Vue {
   float: left;
 }
 .mylogo {
-  font-family: "Sora";
-  font-size: 64px;
+  font-family: "Arial";
+  font-size: 48px;
   font-weight: 400;
   line-height: 24px;
   color: rgba(115, 175, 121, 1);
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 .input {
-  font-family: "Roboto";
+  font-family: "Arial";
   font-size: 48px;
   font-weight: 30;
   line-height: 12px;

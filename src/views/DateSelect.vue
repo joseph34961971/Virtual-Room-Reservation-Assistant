@@ -1,16 +1,12 @@
 <template>
   <div class="app" style="margin:20px 20px 20px 20px;">
-    <el-page-header
-      content="Date Select Page"
-      @back="$router.back(-1)"
-    >
-    </el-page-header>
+    
     <el-container class="app">
       <el-main style="margin:30px 200px 10px 200px;">
         <el-select
           v-model="calendarID"
           placeholder="請選擇會議室"
-          style="width: 200px"
+          style="width: 400px"
           class="filter-item"
         >
           <el-option
@@ -52,16 +48,10 @@
           align="right"
         >
           <el-button
-            type="success"
+            type="primary"
             @click="enterDate"
           >
-            確認
-          </el-button>
-          <el-button
-            type="success"
-            @click="getList"
-          >
-            getList
+            SELECT
           </el-button>
         </div>
       </el-main>
