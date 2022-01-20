@@ -1,6 +1,5 @@
 <template>
   <div class="ra-register">
-    <p class="mylogo">VRRA</p>
     <div class="flex-wrapper-one">
       <p class="input">Register</p>
         <el-form
@@ -67,49 +66,10 @@
           Register
         </el-button>
       </div>
-      <div class="flex-wrapper-two">
-        <el-button
-          class="button"
-          @click="initAuthN"
-        >
-          initAuth
-        </el-button>
-        <el-button
-          class="button"
-          @click="addEvent"
-        >
-          testADd
-        </el-button>
-        <el-button
-          class="button"
-          @click="signOut"
-        >
-          signOut
-        </el-button>
-        <el-button
-          class="button"
-          @click="sendNotification"
-        >
-          sendMail
-        </el-button>
-      </div>
-      <div class="flex-wrapper-two">
-        <el-button
-          class="button"
-          @click="testMongo"
-        >
-          mongoTest
-        </el-button>
-        <el-button
-          class="button"
-          @click="getMongoUsers"
-        >
-          mongoTest
-        </el-button>
-      </div>
     </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
@@ -210,11 +170,12 @@ export default class test extends Vue {
 
 <style lang="scss" scoped>
 .ra-register {
+  width: calc(100%);
   background-color: rgba(255, 255, 255, 1);
-  padding: 78px 420px 82px 72px;
+  padding: 0px 0px 0px 0px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 .mylogo {
   font-family: "Sora";
@@ -227,9 +188,9 @@ export default class test extends Vue {
 }
 .flex-wrapper-one {
   background-color: rgba(255, 255, 255, 1);
-  margin-left: 348px;
+  margin-left: 0px;
   border-radius: 20px;
-  padding: 69px 134px 130px;
+  padding: 40px 100px 100px;
   box-shadow: 5px 8px 20px 0 rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
@@ -237,16 +198,18 @@ export default class test extends Vue {
   border: 2px solid rgba(0, 0, 0, 1);
 }
 .input {
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 48px;
   font-weight: 30;
   line-height: 12px;
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
   text-align: center;
-  margin-bottom: 97px;
+  margin-bottom: 98px;
 }
 .text-field {
+  width: calc(100%);
   margin-bottom: 16px;
   border-radius: 4px;
   padding: 7px 15px;
@@ -255,29 +218,35 @@ export default class test extends Vue {
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
 .text-area {
+  width: calc(100%);
   display: flex;
   flex-direction: column;
   align-items: left;
-  width: 296px;
+  width: 328px;
 }
 .label {
-  font-family: "Roboto";
-  font-size: 12px;
+  font-family: "Arial";
+  font-size: 16px;
   // font-weight: 400;
   // line-height: 16px;
-  color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.4);
   align-self: flex-start;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 .input-two {
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 16px;
   // font-weight: 0;
   // line-height: 24px;
   // color: rgba(0, 0, 0, 0.87);
   align-self: flex-start;
+  margin-bottom: 0px;
 }
 .text-field-two {
-  margin-bottom: 24px;
+  width: calc(100%);
+  margin-bottom: 16px;
   border-radius: 4px;
   padding: 7px 15px;
   display: flex;
@@ -285,34 +254,41 @@ export default class test extends Vue {
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
 .text-area-two {
+  width: calc(100%);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 .flex-wrapper-two {
+  width: calc(100%);
   display: flex;
   align-items: center;
 }
 .input-three {
-  width: calc(100% - 102px);
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 16px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 16px;
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
-  margin-right: 14px;
+  align-items: left;
+  margin-left: 0px;
+  display: flex;
 }
 .button {
   background-color: rgba(115, 175, 121, 1);
+  color: rgba(255, 255, 255, 1);
   border-radius: 4px;
-  padding: 6px 11.5px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bolder;
 }
 .text-label {
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;

@@ -5,7 +5,7 @@
       @back="$router.back(-1)"
     >
     </el-page-header>
-
+    <p class="mylogo">My Meetings</p>
     <!-- <el-button
       @click="getEventList"
     >
@@ -473,6 +473,15 @@ export default class test extends Vue {
   border: 2px solid rgba(0, 0, 0, 1);
   float: left;
 }
+.mylogo {
+  font-family: "Sora";
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(115, 175, 121, 1);
+  text-align: center;
+  margin-bottom: 40px;
+}
 .input {
   font-family: "Roboto";
   font-size: 48px;
@@ -483,4 +492,5 @@ export default class test extends Vue {
   text-align: center;
   margin-bottom: 97px;
 }
+
 </style>
