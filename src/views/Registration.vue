@@ -36,6 +36,7 @@
           class="label">Password</h2>
           <el-form-item>
             <el-input
+              type="password"
               class="input-two"
               v-model="form.password"              
             />
@@ -44,9 +45,10 @@
           class="label">Confirm Password</h2>
           <el-form-item>
             <el-input
+              type="password"
               class="input-two"
-              v-model="form.confirmPassword"              
-            />
+              v-model="form.confirmPassword">            
+            </el-input>
           </el-form-item>
           <h2
           class="label">Email</h2>
@@ -119,10 +121,17 @@ export default class test extends Vue {
   }
 
   private submit() {
-    console.log(this.form.firstName)
-    console.log(this.form.mail)
-    
-    //handleAuthClick(this.form.firstName);
+    if(this.form.password == this.form.confirmPassword)
+    {  
+       MongoAddUser(this.form.firstName,this.form.lastName,this.form.userName,this.form.mail,this.form.password);
+    }else 
+    {
+      this.$message({
+          message: '您輸入的兩個密碼並不相符，請再試一次。',
+          type: 'error',
+          duration: 3000
+        })
+    }
   }
 
   private initAuthN()
@@ -179,12 +188,6 @@ export default class test extends Vue {
     const userList = await MongoGetUserList();
     console.log(userList);
   }
-
-  created()
-  {
-    handleClientLoad();
-  }
-
 }
 </script>
 

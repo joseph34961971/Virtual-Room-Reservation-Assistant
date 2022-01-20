@@ -20,7 +20,7 @@ module.exports= {
             auth: jwtClient,
             //userId:privatekey.client_email,
             userId:'me',
-            requestBody: this.sentMessage
+            requestBody: JSON.stringify(this.sentMessage)
         }, function (err, response) {
        if (err) {
            console.log('The API returned an error: ' + err);
