@@ -7,6 +7,37 @@ const recordRoutes = express.Router();
 
 // This will help us connect to the database
 const dbo = require('../db/conn');
+const gapis = require('../googleapis/gapis');
+
+// This section will help you get a list of all the records.
+recordRoutes.route('/googleApi/list/:id').get(function (req, res) {
+  const googleCal = gapis;
+
+  const matchDocument = {
+    calendarID:req.body.id,
+  };
+  console.log(req.params.id);
+
+googleCal.calendarID = req.params.id;
+  gapis.listCalendar(function (err, result) {
+    if (err) {
+      res.status(400).send('Error fetching listings!');
+    } else {
+      res.json(result);
+    }
+  });
+  /*dbConnect
+    .collection('users')
+    .find({})
+    .limit(50)
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send('Error fetching listings!');
+      } else {
+        res.json(result);
+      }
+    });*/
+});
 
 // This section will help you get a list of all the records.
 recordRoutes.route('/listings').get(async function (_req, res) {
@@ -28,15 +59,8 @@ recordRoutes.route('/listings').get(async function (_req, res) {
 // This section will help you create a new record.
 recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
   const dbConnect = dbo.getDb();
-  const matchDocument = {
-    firstName:req.body.firstName,
-    lastName:req.body.lastName,
-    userName:req.body.userName,
-    password:req.body.password,
-    email:req.body.email,
-  };
-
   /*
+  Body:
   const raw = {
       "firstName": firstName,
       "lastName":lastName,
@@ -45,6 +69,46 @@ recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
       "email": email
       }
   */
+  const matchDocument = {
+    firstName:req.body.firstName,
+    lastName:req.body.lastName,
+    userName:req.body.userName,
+    password:req.body.password,
+    email:req.body.email,
+  };
+
+  dbConnect
+    .collection('users')
+    .insertOne(matchDocument, function (err, result) {
+      if (err) {
+        res.status(400).send('Error inserting matches!');
+      } else {
+        console.log(`Added a new match with id ${result.insertedId}`);
+        res.status(204).send();
+      }
+    });
+});
+
+// This section will help you create a new record.
+recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
+  const dbConnect = dbo.getDb();
+  /*
+  Body:
+  const raw = {
+      "firstName": firstName,
+      "lastName":lastName,
+      "userName": userName,
+      "password": password,             
+      "email": email
+      }
+  */
+  const matchDocument = {
+    firstName:req.body.firstName,
+    lastName:req.body.lastName,
+    userName:req.body.userName,
+    password:req.body.password,
+    email:req.body.email,
+  };
 
   dbConnect
     .collection('users')

@@ -66,6 +66,15 @@
           Register
         </el-button>
       </div>
+
+      <div class="flex-wrapper-two">
+        <el-button
+          class="button"
+          @click="sendNotification"
+        >
+          Debug
+        </el-button>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +86,7 @@ import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents,getEvent} from '@/apis/googleCal';
 import {MongoAddUser,MongoGetUserList} from '@/apis/mongoTest';
+import {listEvents} from '@/apis/testGoogleApis';
 
 @Component({
   name: 'registration'
@@ -133,8 +143,27 @@ export default class test extends Vue {
   private async sendNotification()
   {
     //sendMail('jeff99998888@yahoo.com','d','ad');
-    const temp = await getEvent('vtchjno2gq18jhundmsr1rjbno@group.calendar.google.com','io3fiuum12prqoiicl2j8mfi20');
-    console.log(temp);
+    /*const temp = await getEvent('vtchjno2gq18jhundmsr1rjbno@group.calendar.google.com','io3fiuum12prqoiicl2j8mfi20');
+    console.log(temp);*/
+    let temp = await listEvents('vtchjno2gq18jhundmsr1rjbno@group.calendar.google.com');
+    const resp = JSON.parse(temp);
+
+    const calendarIds = [];
+            
+            for(let i = 0; i < resp.items.length; i++) {
+              calendarIds.push(resp.items[i]);
+            }         
+            const reEvent = calendarIds;
+            console.log(calendarIds.length);
+            //console.log(calendarIds[0].start.dateTime);
+            if (calendarIds.length > 0) {
+                  for (let j = 0; j < calendarIds.length; j++) {
+                    const event = calendarIds[j];
+                    const when = event.start.dateTime;
+                    console.log(event.summary + ' (' + when + ')');
+                  }
+            }
+
   }
 
   private async testMongo()
