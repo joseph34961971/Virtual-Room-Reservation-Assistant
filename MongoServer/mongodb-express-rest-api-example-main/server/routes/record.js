@@ -9,6 +9,137 @@ const recordRoutes = express.Router();
 const dbo = require('../db/conn');
 const gapis = require('../googleapis/gapis');
 
+recordRoutes.route('/googleApi/send').post(function (req, res) {
+  const googleCal = gapis;
+
+ console.log(req.body.Message);
+ googleCal.sentMessage = req.body.Message;
+  gapis.sendMail(function (err, result) {
+    if (err) {
+      res.status(400).send('Error fetching listings!');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// This section will help you get a list of all the records.
+recordRoutes.route('/googleApi/get/:calID/:eventID').get(function (req, res) {
+  const googleCal = gapis;
+
+
+
+  console.log(req.params.eventID);
+
+googleCal.calendarID = req.params.calID;
+googleCal.eventID = req.params.eventID;
+  gapis.getEvent(function (err, result) {
+    if (err) {
+      res.status(400).send('Error fetching listings!');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+recordRoutes.route('/googleApi/delete').post(function (req, res) {
+  const googleCal = gapis;
+
+ console.log(req.body.calendarID);
+ googleCal.calendarID = req.body.calendarID;
+ googleCal.eventID = req.body.eventID;
+  gapis.deleteEvents(function (err, result) {
+    if (err) {
+      res.status(400).send('Error fetching listings!');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// This section will help you get a list of all the records.
+recordRoutes.route('/googleApi/update').post(function (req, res) {
+  const googleCal = gapis;
+
+  /*
+    start:any,end:any,title:any,des:any,location:any,calID:any
+    const resource = {
+      "summary": title,
+      "description": des,
+        "location": location,
+        "start": {
+          "dateTime": start
+        },
+        "end": {
+          "dateTime": end
+        },
+      };
+  */
+ console.log(req.body);
+ googleCal.calendarID = req.body.calendarID;
+ googleCal.eventID = req.body.eventID;
+  const matchDocument = {
+    "summary":req.body.title,
+    "description":req.body.des,
+    "location":req.body.location,
+    "start": {
+      "dateTime": req.body.start
+    },
+    "end": {
+      "dateTime": req.body.end
+    },
+  }
+  googleCal.addResource = matchDocument;
+  gapis.updateEvents(function (err, result) {
+    if (err) {
+      res.status(400).send('Error fetching listings!');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
+// This section will help you get a list of all the records.
+recordRoutes.route('/googleApi/add').post(function (req, res) {
+  const googleCal = gapis;
+
+  /*
+    start:any,end:any,title:any,des:any,location:any,calID:any
+    const resource = {
+      "summary": title,
+      "description": des,
+        "location": location,
+        "start": {
+          "dateTime": start
+        },
+        "end": {
+          "dateTime": end
+        },
+      };
+  */
+ console.log(req.body);
+ googleCal.calendarID = req.body.calendarID;
+  const matchDocument = {
+    "summary":req.body.title,
+    "description":req.body.des,
+    "location":req.body.location,
+    "start": {
+      "dateTime": req.body.start
+    },
+    "end": {
+      "dateTime": req.body.end
+    },
+  }
+  googleCal.addResource = matchDocument;
+  gapis.addEvents(function (err, result) {
+    if (err) {
+      res.status(400).send('Error fetching listings!');
+    } else {
+      res.json(result);
+    }
+  });
+});
+
 // This section will help you get a list of all the records.
 recordRoutes.route('/googleApi/list/:id').get(function (req, res) {
   const googleCal = gapis;
@@ -26,17 +157,6 @@ googleCal.calendarID = req.params.id;
       res.json(result);
     }
   });
-  /*dbConnect
-    .collection('users')
-    .find({})
-    .limit(50)
-    .toArray(function (err, result) {
-      if (err) {
-        res.status(400).send('Error fetching listings!');
-      } else {
-        res.json(result);
-      }
-    });*/
 });
 
 // This section will help you get a list of all the records.

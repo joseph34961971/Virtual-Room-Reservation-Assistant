@@ -70,7 +70,7 @@
       <div class="flex-wrapper-two">
         <el-button
           class="button"
-          @click="sendNotification"
+          @click="signOut"
         >
           Debug
         </el-button>
@@ -84,9 +84,9 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
-import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,sendMail,listUpcomingEvents,getEvent} from '@/apis/googleCal';
+import {handleClientLoad,handleAuthClick,initAuth,testAdd,handleSignoutClick,listUpcomingEvents,getEvent} from '@/apis/googleCal';
 import {MongoAddUser,MongoGetUserList} from '@/apis/mongoTest';
-import {listEvents} from '@/apis/testGoogleApis';
+import {listEvents,insertEvents,deleteEvents,getEvents,updateEvents,sendMail} from '@/apis/testGoogleApis';
 
 @Component({
   name: 'registration'
@@ -130,14 +130,17 @@ export default class test extends Vue {
     initAuth();
   }
 
-  private addEvent()
+  private async addEvent()
   {
-    testAdd();
+    let temp = await getEvents('vtchjno2gq18jhundmsr1rjbno@group.calendar.google.com','io3fiuum12prqoiicl2j8mfi20');
+    console.log(JSON.parse(temp));
+
+    updateEvents('2022-01-25T09:00:00-07:00','2022-01-25T15:00:00-07:00','update','awd','awdad','vtchjno2gq18jhundmsr1rjbno@group.calendar.google.com','io3fiuum12prqoiicl2j8mfi20');
   }
 
   private signOut()
   {
-    handleSignoutClick(this.form.firstName);
+    sendMail("joseph34961971@gmail.com","hey","hello");
   }
 
   private async sendNotification()
@@ -160,7 +163,7 @@ export default class test extends Vue {
                   for (let j = 0; j < calendarIds.length; j++) {
                     const event = calendarIds[j];
                     const when = event.start.dateTime;
-                    console.log(event.summary + ' (' + when + ')');
+                    console.log(event.id + ' (' + when + ')');
                   }
             }
 

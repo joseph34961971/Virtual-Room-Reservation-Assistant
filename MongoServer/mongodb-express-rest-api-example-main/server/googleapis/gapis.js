@@ -4,12 +4,116 @@ let privatekey = require("../../../../serviceAccount.json");
 
 // configure a JWT auth client
 let jwtClient;
-
 let calendar;
+let mail;
+
+module.exports.sentMessage;
 module.exports.calendarID;
+module.exports.eventID;
+module.exports.addResource;
 
 module.exports= {
-    listCalendar: function (callback){
+    sendMail: function (callback){
+        //Google Calendar API
+        mail = google.gmail('v1');
+        mail.users.messages.send({
+            auth: jwtClient,
+            //userId:privatekey.client_email,
+            userId:'me',
+            requestBody: this.sentMessage
+        }, function (err, response) {
+       if (err) {
+           console.log('The API returned an error: ' + err);
+           return callback(err);
+       }
+       var events = response;
+       console.log(response);
+        return callback(false,response);
+
+        });
+    },
+
+    updateEvents: function (callback){
+        //Google Calendar API
+        console.log(this.calendarID);
+        calendar = google.calendar('v3');
+        calendar.events.update({
+            auth: jwtClient,
+            calendarId: this.calendarID,
+            eventId: this.eventID,
+            requestBody: this.addResource
+        }, function (err, response) {
+       if (err) {
+           console.log('The API returned an error: ' + err);
+           return callback(err);
+       }
+       var events = response;
+       console.log(response);
+        return callback(false,response);
+
+        });
+    },
+
+    deleteEvents: function (callback){
+        //Google Calendar API
+        console.log(this.calendarID);
+        calendar = google.calendar('v3');
+        calendar.events.delete({
+            auth: jwtClient,
+            calendarId: this.calendarID,
+            eventId: this.eventID,
+        }, function (err, response) {
+       if (err) {
+           console.log('The API returned an error: ' + err);
+           return callback(err);
+       }
+       var events = response;
+       console.log(response);
+        return callback(false,response);
+
+        });
+    },
+
+    addEvents: function (callback){
+        //Google Calendar API
+        console.log(this.calendarID);
+        calendar = google.calendar('v3');
+        calendar.events.insert({
+            auth: jwtClient,
+            calendarId: this.calendarID,
+            requestBody: this.addResource
+        }, function (err, response) {
+       if (err) {
+           console.log('The API returned an error: ' + err);
+           return callback(err);
+       }
+       var events = response;
+       console.log(response);
+        return callback(false,response);
+
+        });
+    },
+
+    getEvent: function (callback){
+        //Google Calendar API
+        console.log(this.calendarID);
+        calendar = google.calendar('v3');
+        calendar.events.get({
+            auth: jwtClient,
+            calendarId: this.calendarID,
+            eventId: this.eventID
+        }, function (err, response) {
+       if (err) {
+           console.log('The API returned an error: ' + err);
+           return callback(err);
+       }
+       var events = response.data;
+       console.log(response.data);
+        return callback(false,response.data);
+        });
+    },
+
+listCalendar: function (callback){
     //Google Calendar API
     console.log(this.calendarID);
     calendar = google.calendar('v3');
@@ -34,6 +138,7 @@ module.exports= {
    }
     });
 },
+
 initJWT: function () {
 jwtClient = new google.auth.JWT(
     privatekey.client_email,
@@ -41,7 +146,8 @@ jwtClient = new google.auth.JWT(
     privatekey.private_key,
     ['https://www.googleapis.com/auth/spreadsheets',
      'https://www.googleapis.com/auth/drive',
-     'https://www.googleapis.com/auth/calendar']);
+     'https://www.googleapis.com/auth/calendar',
+     'https://www.googleapis.com/auth/gmail.send']);
 //authenticate request
 jwtClient.authorize(function (err, tokens) {
 if (err) {
