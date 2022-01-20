@@ -139,7 +139,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail } from '@/apis/googleCal'
+import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent } from '@/apis/googleCal'
 import { MongoGetUserList } from '@/apis/mongoTest'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
@@ -196,17 +196,27 @@ export default class test extends Vue {
     { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
   ]
   private attendee = []
-  private userIDEvent = "dqqvsk5f6s60e44d3bkfjiepns"
+
+  private userCalendarID = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
+  private userEventID = "dqqvsk5f6s60e44d3bkfjiepns"
+
   private userName = ''
   private userEmail = ''
+  // private userData = {
+  //   userName: '',
+  //   userEmail: ''
+  // }
   
-  created() {
+  async created() {
     handleClientLoad()
     this.getUserInfo()
   }
 
-  private getUserInfo() {
-
+  private async getUserInfo() {
+    const temp = await getEvent(this.userCalendarID, this.userEventID)
+    console.log(temp)
+    this.userName = temp.summary
+    this.userEmail = temp.description
   }
 
   private async enterDate() {
@@ -214,15 +224,16 @@ export default class test extends Vue {
     //this.timeOptions = this.defaultTimeOptions
 
     //insertEvents('2022-01-01T09:00:00-08:00','2022-01-01T15:00:00-08:00','joseph','joseph34961971@gmail.com','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
-    const temp = await listUpcomingEvents('ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
-    console.log(temp)
-    
+    //const temp = await listUpcomingEvents('ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
+    //console.log(temp)
+    await this.getUserInfo()
+    console.log(this.userName)
 
     for (let i in this.timeOptions) {
       this.timeOptions[i].disabled = false
     }
 
-    if (this.calendarID != '') {
+    if (this.calendarID != '' && this.date != '') {
       
       this.listLoading = true
       const data = await listUpcomingEvents(this.calendarID)
@@ -260,11 +271,20 @@ export default class test extends Vue {
       this.reservationFormVisible = true
     }
     else {
-      this.$message({
-        message: '請選擇會議室',
-        type: 'error',
-        duration: 2000
-      })
+      if (this.calendarID == '') {
+        this.$message({
+          message: '請選擇會議室',
+          type: 'error',
+          duration: 2000
+        })
+      }
+      if (this.date == '') {
+        this.$message({
+          message: '請選擇會議日期',
+          type: 'error',
+          duration: 2000
+        })
+      }
     }
     
   }
@@ -296,18 +316,24 @@ export default class test extends Vue {
     this.eventData.startTime = this.date + "T" + this.startTime + ":00" + "+08:00"
     this.eventData.endTime = this.date + "T" + this.endTime + ":00" + "+08:00"
     console.log(this.eventData)
-    insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, this.eventData.description, this.eventData.calendarID)
+
+    console.log(this.attendee)
+
+    let fakeDescription = ''
+    for (let i in this.attendee) {
+      console.log(this.attendee[i])
+      fakeDescription += String(this.attendee[i])
+      fakeDescription += '/'
+      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+    }
+
+    insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, fakeDescription, this.eventData.calendarID)
     this.$notify({
       title: 'Success',
       message: 'Reservate Successfully',
       type: 'success',
       duration: 2000
     })
-    console.log(this.attendee)
-    for (let i in this.attendee) {
-      console.log(this.attendee[i])
-      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
-    }
 
     this.reservationFormVisible = false
   }
