@@ -62,7 +62,7 @@
             <span>{{ row.endTime }}</span>
           </template>
         </el-table-column>
-        <el-table-column
+        <!--<el-table-column
           label="時區"
           align="center"
           width="120px"
@@ -72,9 +72,9 @@
           <template slot-scope="{row}">
             <span>{{ row.timeZone }}</span>
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <el-table-column
-          label="與會者"
+          label="參與成員"
           align="center"
           width="200px"
           prop="first_name"
