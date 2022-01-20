@@ -20,7 +20,23 @@
             :value="item.value"
           />
         </el-select>
-        <template>
+        <el-calendar v-model="date" @click="testCal(data)">
+          <template 
+            slot-scope="{ data }"
+            slot="dateCell"
+            @click="testCal(data)"
+          >
+            <div @click="testCal(data)">
+              <p
+                :class="data.isSelected ? 'is-selected' : ''"
+                v-on="data.isSelected ? assignToDate(data): ''"
+              >
+                {{ data.day.split('-').slice(2).join('-') }} {{ data.isSelected ? '✔️' : ''}}
+              </p>
+            </div>
+          </template>
+        </el-calendar>
+        <!-- <template>
           <div class="block" style="margin-top:20px;">
             <el-date-picker
               v-model="date"
@@ -31,7 +47,7 @@
             >
             </el-date-picker>
           </div>
-        </template>
+        </template> -->
         <div
           align="right"
         >
@@ -153,6 +169,7 @@ import { get } from 'http';
 })
 
 export default class test extends Vue {
+  private test = ''
   private date = ''
   private reservationFormVisible = false
   private listLoading = false
@@ -340,6 +357,14 @@ export default class test extends Vue {
 
   private handleCancel() {
     this.reservationFormVisible = false
+  }
+
+  private testCal(data: any) {
+    console.log(data.day)
+  }
+
+  private assignToDate(data: any) {
+    this.date = data.day
   }
 
 }
