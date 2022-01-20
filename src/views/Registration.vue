@@ -172,10 +172,10 @@ export default class test extends Vue {
 .ra-register {
   width: calc(100%);
   background-color: rgba(255, 255, 255, 1);
-  padding: 0px 420px 80px 80px;
+  padding: 0px 0px 0px 0px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
 .mylogo {
   font-family: "Sora";
@@ -188,7 +188,7 @@ export default class test extends Vue {
 }
 .flex-wrapper-one {
   background-color: rgba(255, 255, 255, 1);
-  margin-left: 348px;
+  margin-left: 0px;
   border-radius: 20px;
   padding: 40px 100px 100px;
   box-shadow: 5px 8px 20px 0 rgba(0, 0, 0, 0.25);
