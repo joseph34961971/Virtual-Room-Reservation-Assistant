@@ -94,7 +94,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(row.account_id, $index)"
+              @click="handleDelete(row.eventID, row.calendarID, $index)"
             >
               刪除
             </el-button>
@@ -109,12 +109,99 @@
         </el-table-column>
       </el-table>
     </el-main>
+
+    <!-- update event dialog -->
+    <el-dialog
+      title="Update Event"
+      :visible.sync="editEventDialogVisible"
+      width="60%"
+    >
+      <el-form
+        ref="dataForm"
+        :model="eventData"
+        label-width="100px"
+        style="width: 700px; margin-left:120px;"
+        align="left"
+      >
+        <el-form-item
+          label="會議名稱"
+        >
+          <el-input
+            v-model="eventData.title"
+            placeholder="請輸入會議名稱"
+          />
+        </el-form-item>
+        <el-form-item
+          label="會議時間"
+        >
+          <el-select
+            v-model="selectedTime"
+            placeholder="請選擇時間"
+            style="width: 200px"
+            class="filter-item"
+          >
+            <el-option
+              v-for="item in timeOptions"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+              :disabled="item.disabled"
+            />
+          </el-select>
+          <!-- <el-time-select
+            placeholder="結束时间"
+            v-model="endTime"
+            :picker-options="{
+              start: '09:00',
+              step: '01:00',
+              end: '18:00',
+              minTime: startTime
+            }">
+          </el-time-select> -->
+        </el-form-item>
+        <el-form-item
+          label="詳細資訊"
+        >
+          <el-input
+            type="textarea"
+            :rows="5"
+            placeholder="請輸入會議資訊"
+            v-model="eventData.description"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="參與者"
+        >
+          <template>
+            <el-transfer
+              filterable
+              filter-placeholder="請輸入邀請人信箱"
+              v-model="attendee"
+              :data="users"
+              :titles="['使用者列表', '被邀請']"
+            >
+            </el-transfer>
+          </template>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            @click="updateData"
+          >
+            確認預約
+          </el-button>
+          <el-button @click="reservationFormVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
   </div>
 </template>
 
 <script lang="ts" setup>
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent } from '@/apis/googleCal'
+import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent, deleteEvents } from '@/apis/googleCal'
 import { MongoGetUserList } from '@/apis/mongoTest'
 import { event } from 'jquery'
 import { get } from 'http'
@@ -141,7 +228,21 @@ export default class test extends Vue {
     endTime: '',
     timeZone: '',
     attendee: '',
+    eventID: '',
+    calendarID: ''
   }
+
+  private eventData = {
+    title: '',
+    room: '',
+    startTime: '',
+    endTime: '',
+    timeZone: '',
+    attendee: '',
+    eventID: '',
+    calendarID: ''
+  }
+  private editEventDialogVisible = false
 
   private userCalendarID = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
   private userEventID = "dqqvsk5f6s60e44d3bkfjiepns"
@@ -187,7 +288,9 @@ export default class test extends Vue {
               startTime: data[j].start.dateTime,
               endTime: data[j].end.dateTime,
               timeZone: data[j].start.timeZone,
-              attendee: data[j].description
+              attendee: data[j].description,
+              eventID: data[j].id,
+              calendarID: this.roomOptions[i].value
             }
             
             this.eventList.push(tempEvent)
@@ -200,6 +303,39 @@ export default class test extends Vue {
     this.eventList.splice(0, 1)
 
     this.listLoading = false
+  }
+
+  private async handleDelete(eventID: any, calendarID: any, index: number) {
+    this.$confirm('此操作會刪除會議, 是否繼續?', '提示', {
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async() => {
+      await deleteEvents(eventID, calendarID)
+      this.$notify({
+        title: 'Success',
+        message: 'Delete Successfully',
+        type: 'success',
+        duration: 2000
+      })
+      this.eventList.splice(index, 1)
+    }).catch(() => {
+      this.$message({
+        type: 'info',
+        message: '已取消刪除'
+      })
+    })
+  }
+
+  private async handleUpdate(row: any) {
+    console.log('handle update')
+    this.eventData = Object.assign({}, row)
+    this.editEventDialogVisible = true
+    console.log(this.eventData)
+  }
+
+  private async updateData() {
+    console.log('update ')
   }
 }
 

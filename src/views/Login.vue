@@ -31,7 +31,7 @@
           </el-form-item>
         </el-form>
       <div class="flex-wrapper-two">
-        <p class="input-three"><router-link :to="{name:'Registration'}">Create account</router-link></p>
+        <p class="input-three"><router-link :to="{name:'Registration'}">Create account?</router-link></p>
         <el-button
           class="button"
           @click="submit"
@@ -95,6 +95,7 @@ export default class test extends Vue {
 
 <style lang="scss" scoped>
 .ra-register {
+  width: calc(100%);
   background-color: rgba(255, 255, 255, 1);
   padding: 78px 420px 82px 72px;
   display: flex;
@@ -122,7 +123,8 @@ export default class test extends Vue {
   border: 2px solid rgba(0, 0, 0, 1);
 }
 .input {
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 48px;
   font-weight: 30;
   line-height: 12px;
@@ -132,6 +134,7 @@ export default class test extends Vue {
   margin-bottom: 97px;
 }
 .text-field {
+  width: calc(100%);
   margin-bottom: 16px;
   border-radius: 4px;
   padding: 7px 15px;
@@ -140,21 +143,24 @@ export default class test extends Vue {
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
 .text-area {
+  width: calc(100%);
   display: flex;
   flex-direction: column;
   align-items: left;
   width: 296px;
 }
 .label {
-  font-family: "Roboto";
-  font-size: 12px;
+  font-family: "Arial";
+  font-size: 16px;
   // font-weight: 400;
   // line-height: 16px;
   color: rgba(0, 0, 0, 0.6);
   align-self: flex-start;
+  align-items: left;
 }
 .input-two {
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 16px;
   // font-weight: 0;
   // line-height: 24px;
@@ -162,6 +168,7 @@ export default class test extends Vue {
   align-self: flex-start;
 }
 .text-field-two {
+  width: calc(100%);
   margin-bottom: 24px;
   border-radius: 4px;
   padding: 7px 15px;
@@ -170,34 +177,39 @@ export default class test extends Vue {
   border: 1px solid rgba(0, 0, 0, 0.38);
 }
 .text-area-two {
+  width: calc(100%);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 .flex-wrapper-two {
+  width: calc(100%);
   display: flex;
   align-items: center;
 }
 .input-three {
-  width: calc(100% - 102px);
-  font-family: "Roboto";
+  width: calc(100%);
+  font-family: "Arial";
   font-size: 16px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 16px;
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
+  align-items: left;
   margin-right: 14px;
+  display: flex;
 }
 .button {
   background-color: rgba(115, 175, 121, 1);
+  font-family: "Arial";
   border-radius: 4px;
-  padding: 6px 11.5px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .text-label {
-  font-family: "Roboto";
+  font-family: "Arial";
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
