@@ -1,10 +1,5 @@
 <template>
   <div class="ra-register">
-    <el-page-header
-      content="Register Page"
-      @back="$router.back(-1)"
-    >
-    </el-page-header>
     <div class="flex-wrapper-one">
       <p class="input">Register</p>
         <el-form
@@ -211,7 +206,7 @@ export default class test extends Vue {
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 98px;
 }
 .text-field {
   width: calc(100%);
@@ -283,11 +278,13 @@ export default class test extends Vue {
 }
 .button {
   background-color: rgba(115, 175, 121, 1);
+  color: rgba(255, 255, 255, 1);
   border-radius: 4px;
   padding: 10px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bolder;
 }
 .text-label {
   width: calc(100%);

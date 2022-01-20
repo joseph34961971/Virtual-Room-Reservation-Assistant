@@ -1,12 +1,14 @@
 <template>
   <div class="ra-register">
-    <el-page-header
-      content="Login Page"
-      @back="$router.back(-1)"
-    >
-    </el-page-header>
     <div class="flex-wrapper-one">
       <p class="input">Login</p>
+      <div class="flex-wrapper-two">
+        <img
+          alt=""
+          class="mask"
+          src="https://i.imgur.com/6Xhftd2.png"
+        />
+      </div>
         <el-form
           ref="form"
           class="text-area"
@@ -131,7 +133,6 @@ export default class test extends Vue {
   color: rgba(115, 175, 121, 1);
   align-self: stretch;
   text-align: center;
-  margin-bottom: 300px;
 }
 .text-field {
   width: calc(100%);
@@ -202,6 +203,8 @@ export default class test extends Vue {
 }
 .button {
   background-color: rgba(115, 175, 121, 1);
+  color: rgba(255, 255, 255, 1);
+  font-weight: bolder;
   font-family: "Arial";
   border-radius: 4px;
   padding: 10px 16px;
@@ -218,6 +221,9 @@ export default class test extends Vue {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.14px;
+}
+.mask{
+  margin-bottom: 60px;
 }
 </style>
 

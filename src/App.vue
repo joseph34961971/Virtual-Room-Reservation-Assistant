@@ -60,7 +60,7 @@ export default class test extends Vue {
   font-weight: 400;
   line-height: 24px;
   color: rgba(115, 175, 121, 1);
-  margin-left:0px;
+  margin-left:60px;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
