@@ -72,7 +72,7 @@
       <div class="flex-wrapper-two">
         <el-button
           class="button"
-          @click="signOut"
+          @click="getMongoUsers"
         >
           Debug
         </el-button>
@@ -120,10 +120,47 @@ export default class test extends Vue {
     console.log(this.date)
   }
 
-  private submit() {
+  private async submit() {
     if(this.form.password == this.form.confirmPassword)
     {  
-       MongoAddUser(this.form.firstName,this.form.lastName,this.form.userName,this.form.mail,this.form.password);
+      const userList = await MongoGetUserList();
+      const userListN = JSON.parse(userList);
+      let isLegal = true;
+
+      console.log(userListN);
+      for(let i = 0;i<userListN.length;i++)
+      {
+        if(userListN[i].email == this.form.mail)
+        {
+          this.$message({
+          message: '此信箱已被註冊過。',
+          type: 'error',
+          duration: 3000
+          })
+          isLegal = false;
+        }
+
+        if(userListN[i].userName == this.form.userName)
+        {
+          this.$message({
+          message: '此使用者名稱已被註冊過。',
+          type: 'error',
+          duration: 3000
+          })
+          isLegal = false;
+        }
+      }
+
+      if(isLegal == true)
+      {
+          MongoAddUser(this.form.firstName,this.form.lastName,this.form.userName,this.form.mail,this.form.password);
+          this.$message({
+            message: '註冊成功!',
+            type: 'success',
+            duration: 3000
+          })
+          this.$router.push('Login')
+      }
     }else 
     {
       this.$message({
@@ -186,7 +223,11 @@ export default class test extends Vue {
   private async getMongoUsers()
   {
     const userList = await MongoGetUserList();
-    console.log(userList);
+    const userListN = JSON.parse(userList);
+    for(let i = 0;i<userListN.length;i++)
+    {
+      console.log(userListN[i].userName);
+    }
   }
 }
 </script>
