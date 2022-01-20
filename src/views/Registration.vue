@@ -183,7 +183,7 @@ export default class test extends Vue {
 
   private async testMongo()
   {
-    MongoAddUser(this.form.userName,this.form.mail,this.form.password,'abcd',this.form.firstName);
+    MongoAddUser(this.form.firstName,this.form.lastName,this.form.userName,this.form.mail,this.form.password);
   }
 
   private async getMongoUsers()

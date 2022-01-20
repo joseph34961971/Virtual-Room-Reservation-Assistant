@@ -47,6 +47,13 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "src/setupProxy.js"
+  ],
+  "proxy":{
+    "/user":{
+      "target":"http://localhost:4000",
+      "ws":true
+    }
+  }
 }

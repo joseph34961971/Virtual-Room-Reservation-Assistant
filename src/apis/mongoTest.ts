@@ -1,74 +1,89 @@
 import { Result } from "element-ui";
-import { response } from "express";
+import { json} from "express";
+import { UserRefreshClient } from "google-auth-library";
+import { Agent } from "http";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
-  export async function MongoAddUser(name:any,email:any,password:any,gender:any,address:any)
+  export async function MongoAddUser(firstName:any,lastName:any,userName:any,email:any,password:any)
   {    
     const raw = {
-      "name": name,
-      "emailId": email,
-      "password": password,
-      "gender":gender, 
-      "address": address
+      "firstName": firstName,
+      "lastName":lastName,
+      "userName": userName,
+      "password": password,             
+      "email": email
       }
     
-    await fetch("http://localhost:4000/user", {
+      //http://localhost:4000/user
+    await fetch("http://localhost:5000/listings/recordSwipe", {
       method: 'POST',
-      mode :'no-cors',
+      //mode :'no-cors',
       headers: {'Content-Type':'application/json',
                 'Host':'localhost:4000'},
       body: JSON.stringify(raw),     
       redirect: 'follow'})
-      .then(response => response.json())
+      .then(response => {console.log(response);response.json()})
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
   }
 
   export async function MongoGetUserList():Promise<any>
-  {    
-    // return new Promise(resolve=>{
-    // const ret = window.fetch("http://localhost:4000/user", {
-    //   method: 'GET',
-    //   mode :'no-cors',
-    //   // headers: {'Content-Type':'application/json',
-    //   //           'Host':'localhost:4000'},    
-    //   })
-    //   .then(response => {
-    //     console.log('response:');
-    //     console.log( response);
-    //     resolve(response.body);
-    //   })
-    //   .then(result => {
-    //     console.log('result:' + result);
-    //     resolve(result);
-    //   })
-    //   .catch(error => console.log('error', error));
-
-    //   resolve(ret);
-    // })
-
-    await fetch("http://localhost:4000/user", {
+  {   
+    return new Promise(resolve=>{ 
+    const res = window.fetch("http://localhost:5000/listings", {
       method: 'GET',
-      mode :'no-cors',
-      headers: {'Content-Type':'application/json',
-                'Host':'localhost:4000',
-                'Cache-Control':'no-cache',
-                'redirect': 'follow'},    
-      }
-      ) 
+      //mode :'no-cors',
+      // headers: {'Content-Type':'application/json',
+      //           'Host':'localhost:4000'},    
+      })
       .then(response => {
-        console.log(response);
-        const ol = response;
-        Promise.resolve(ol);
+        console.log('response:');
+        //console.log( response.text());
+        resolve(response.text());
       })
-      .then(result => {
-        console.log(result);
-      })
-      .then(user => {
-        console.log('user:'+user);
-      })
+      // .then(result => {
+      //   console.log('result:' + result);      
+      // })
       .catch(error => console.log('error', error));
 
+      const data = res;
+    })
+    
 
+    //http://localhost:4000
+    // return new Promise(resolve=>{
+    //   const proxyAgent = new HttpsProxyAgent('http://localhost:4000');
+    // window.fetch("/user", {
+    //   method: 'GET',
+    //   //mode :'no-cors',
+    //   headers: {'Content-Type':'application/json',
+    //             'Host':'localhost:4000',
+    //             'Cache-Control':'no-cache',
+    //             'redirect': 'follow'},    
+    //   },
+    //   ) 
+    //   .then(response => {
+    //     // if(response.status === 0){
+    //     //   response.json()
+    //     //   .then((json) => {
+    //     //     const {message,stackTrace} = json;
+    //     //     resolve(message)
+    //     //   })
+    //     // }
+    //     console.log(response);
+    //     const ol = response;
+    //     Promise.resolve(ol.body);
+    //   })
+    //   .then(result => {
+    //     console.log(result);
+    //     Promise.resolve(result);
+    //   })
+    //   .then(user => {
+    //     console.log('user:'+user);
+    //   })
+    //   .catch(error => console.log('error', error));
+    // })
+    
   }
     
   

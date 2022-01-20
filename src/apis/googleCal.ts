@@ -25,7 +25,7 @@ import {gapi} from 'gapi-script';
 
   export function testAdd()
   {
-    insertEvents('2022-01-14T09:00:00-07:00','2022-01-14T15:00:00-07:00','title','description','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com');
+    insertEvents('2022-01-14T09:00:00-07:00','2022-01-14T15:00:00-07:00','title','description','heheheh','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com');
   }
 
   function initClient() {
@@ -84,7 +84,7 @@ import {gapi} from 'gapi-script';
   }
 
 
-  export function insertEvents(start:any,end:any,title:any,des:any,calID:any) {
+  export function insertEvents(start:any,end:any,title:any,des:any,location:any,calID:any) {
       const userNames = {
         "UserID":"User01",
         "email":"aowjdia@ofwef.com"
@@ -94,13 +94,13 @@ import {gapi} from 'gapi-script';
       const resource = {
       "summary": title,
       "description": des,
-        "location": "Tapie",
+        "location": location,
         "start": {
           "dateTime": start
         },
         "end": {
           "dateTime": end
-        }
+        },
       };
       
       const request = gapi.client.calendar.events.insert({
@@ -112,7 +112,7 @@ import {gapi} from 'gapi-script';
       });
     }   
 
-    export function updateEvents(start:any,end:any,title:any,des:any,calID:any,eventID:any) {
+    export function updateEvents(start:any,end:any,title:any,des:any,calID:any,location:any,eventID:any) {
       const userNames = {
         "UserID":"User01",
         "email":"aowjdia@ofwef.com"
@@ -122,7 +122,7 @@ import {gapi} from 'gapi-script';
       const resource = {
       "summary": title,
       "description": des,
-        "location": "Tapie",
+        "location": location,
         "start": {
           "dateTime": start
         },
