@@ -336,15 +336,16 @@ export default class test extends Vue {
 
     console.log(this.attendee)
 
-    let fakeDescription = ''
+    let attendeeStr = ''
     for (let i in this.attendee) {
       console.log(this.attendee[i])
-      fakeDescription += String(this.attendee[i])
-      fakeDescription += '/'
+      attendeeStr += String(this.attendee[i])
+      attendeeStr += '/'
       sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
     }
+    console.log(attendeeStr)
 
-    insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, fakeDescription, this.eventData.calendarID)
+    insertEvents(this.eventData.startTime, this.eventData.endTime, this.eventData.title, this.eventData.description, attendeeStr, this.eventData.calendarID)
     this.$notify({
       title: 'Success',
       message: 'Reservate Successfully',

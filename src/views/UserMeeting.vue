@@ -85,6 +85,17 @@
           </template>
         </el-table-column>
         <el-table-column
+          label="詳細資訊"
+          align="center"
+          width="200px"
+          prop="first_name"
+          sortable="custom"
+        >
+          <template slot-scope="{row}">
+            <span>{{ row.description }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           label="操作"
           align="center"
           width="200px"
@@ -118,25 +129,27 @@
     >
       <el-form
         ref="dataForm"
-        :model="eventData"
+        :model="formEventData"
         label-width="100px"
         style="width: 700px; margin-left:120px;"
         align="left"
       >
         <el-form-item
           label="會議名稱"
+          :required="true"
         >
           <el-input
-            v-model="eventData.title"
+            v-model="formEventData.title"
             placeholder="請輸入會議名稱"
           />
         </el-form-item>
         <el-form-item
           label="會議時間"
+          :required="true"
         >
           <el-select
-            v-model="selectedTime"
-            placeholder="請選擇時間"
+            v-model="formEventData.selectedTime"
+            :placeholder="defaultTime"
             style="width: 200px"
             class="filter-item"
           >
@@ -166,18 +179,19 @@
             type="textarea"
             :rows="5"
             placeholder="請輸入會議資訊"
-            v-model="eventData.description"
+            v-model="formEventData.description"
           >
           </el-input>
         </el-form-item>
         <el-form-item
           label="參與者"
+          :required="true"
         >
           <template>
             <el-transfer
               filterable
               filter-placeholder="請輸入邀請人信箱"
-              v-model="attendee"
+              v-model="formEventData.attendee"
               :data="users"
               :titles="['使用者列表', '被邀請']"
             >
@@ -189,7 +203,7 @@
             type="primary"
             @click="updateData"
           >
-            確認預約
+            確認編輯
           </el-button>
           <el-button @click="reservationFormVisible = false">取消</el-button>
         </el-form-item>
@@ -201,7 +215,7 @@
 
 <script lang="ts" setup>
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent, deleteEvents } from '@/apis/googleCal'
+import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent, deleteEvents, updateEvents } from '@/apis/googleCal'
 import { MongoGetUserList } from '@/apis/mongoTest'
 import { event } from 'jquery'
 import { get } from 'http'
@@ -211,6 +225,7 @@ import { get } from 'http'
 })
 
 export default class test extends Vue {
+  private date = ''
   private userName = ''
   private userEmail = ''
   private roomOptions = [
@@ -220,16 +235,35 @@ export default class test extends Vue {
     { value: '3ctok2t3skph001bj29s4onfm4@group.calendar.google.com', label: 'Room4' },
     { value: 'jo63b6s8sn678tcesnpge03a6k@group.calendar.google.com', label: 'Room5' }
   ]
+
+  private defaultTimeOptions = [
+    { label: '08:00 - 09:00', start: '08:00', end: '09:00', disabled: false},
+    { label: '09:00 - 10:00', start: '09:00', end: '10:00', disabled: false},
+    { label: '10:00 - 11:00', start: '10:00', end: '11:00', disabled: false},
+    { label: '11:00 - 12:00', start: '11:00', end: '12:00', disabled: false},
+    { label: '12:00 - 13:00', start: '12:00', end: '13:00', disabled: false},
+    { label: '13:00 - 14:00', start: '13:00', end: '14:00', disabled: false},
+    { label: '14:00 - 15:00', start: '14:00', end: '15:00', disabled: false},
+    { label: '15:00 - 16:00', start: '15:00', end: '16:00', disabled: false},
+    { label: '16:00 - 17:00', start: '16:00', end: '17:00', disabled: false},
+    { label: '17:00 - 18:00', start: '17:00', end: '18:00', disabled: false},
+  ]
+  private timeOptions = this.defaultTimeOptions
+  private defaultTime = ''
+
+  private users = [
+    { label: 'joseph34961971@gmail.com', key: 'joseph34961971@gmail.com', disabled: false},
+    { label: 'jam99998888@gmail.com', key: 'jam99998888@gmail.com', disabled: false},
+    { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
+  ]
+
   private eventList = [{}]
-  private defaultEvent = {
+
+  private formEventData = {
     title: '',
-    room: '',
-    startTime: '',
-    endTime: '',
-    timeZone: '',
-    attendee: '',
-    eventID: '',
-    calendarID: ''
+    selectedTime: '',
+    description: '',
+    attendee: []
   }
 
   private eventData = {
@@ -239,9 +273,11 @@ export default class test extends Vue {
     endTime: '',
     timeZone: '',
     attendee: '',
+    description: '',
     eventID: '',
     calendarID: ''
   }
+
   private editEventDialogVisible = false
 
   private userCalendarID = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
@@ -264,6 +300,7 @@ export default class test extends Vue {
 
   private async getEventList() {
     this.listLoading = true
+    this.eventList = [{}]
     await this.getUserInfo()
     for (let i in this.roomOptions) {
       //console.log(this.roomOptions[i].value)
@@ -273,7 +310,7 @@ export default class test extends Vue {
       if (data != 0) {
         for (let j in data) {
           console.log(data[j])
-          if (data[j].description.search(this.userEmail) != -1) {
+          if (data[j].location.search(this.userEmail) != -1) {
             // let tempEvent = this.defaultEvent
             // tempEvent.title = data[j].summary
             // tempEvent.room = data[j].organizer.displayName
@@ -288,7 +325,8 @@ export default class test extends Vue {
               startTime: data[j].start.dateTime,
               endTime: data[j].end.dateTime,
               timeZone: data[j].start.timeZone,
-              attendee: data[j].description,
+              attendee: data[j].location,
+              description: data[j].description,
               eventID: data[j].id,
               calendarID: this.roomOptions[i].value
             }
@@ -311,7 +349,7 @@ export default class test extends Vue {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(async() => {
-      await deleteEvents(eventID, calendarID)
+      await deleteEvents(calendarID, eventID)
       this.$notify({
         title: 'Success',
         message: 'Delete Successfully',
@@ -330,12 +368,81 @@ export default class test extends Vue {
   private async handleUpdate(row: any) {
     console.log('handle update')
     this.eventData = Object.assign({}, row)
+
+    this.formEventData.title = this.eventData.title
+    this.formEventData.description = this.eventData.description
+
+    for (let i in this.timeOptions) {
+      this.timeOptions[i].disabled = false
+    }
+
+    const data = await listUpcomingEvents(this.eventData.calendarID)
+    if (data == 0) {
+      console.log('nothing')
+    }
+    else {
+      //console.log(typeof(data))
+      for (let i in data) {
+        let tempStartTime = data[i].start.dateTime
+        let tempEndTime = data[i].end.dateTime
+        tempStartTime = tempStartTime.split('T')
+        //console.log(tempStartTime[0])
+        //console.log(this.date)
+        let date = this.eventData.startTime.split('T')
+        this.date = date[0]
+        this.defaultTime = date[1].split(':')[0] + ":00 - " + String(Number(date[1].split(':')[0]) + 1) + ":00"
+        // console.log('*************************')
+        // console.log(date)
+        if (tempStartTime[0] != this.date) {
+          continue
+        }
+        tempStartTime = tempStartTime[1].split(':')[0]
+        console.log(tempStartTime)
+        for (let j in this.timeOptions) {
+          if (this.timeOptions[j].start == (tempStartTime + ":00")) {
+            this.timeOptions[j].disabled = true
+            if (this.timeOptions[j].label == this.defaultTime) {
+              this.timeOptions[j].disabled = false
+            }
+          }
+        }
+      }
+    }
     this.editEventDialogVisible = true
     console.log(this.eventData)
   }
 
   private async updateData() {
-    console.log('update ')
+    if (this.formEventData.selectedTime != '' && this.formEventData.title != '')
+    {
+      let tempTime = this.formEventData.selectedTime.split(' - ')
+      let startTime = tempTime[0]
+      let endTime = tempTime[1]
+      console.log(this.formEventData.selectedTime)
+      this.eventData.startTime = this.date + "T" + startTime + ":00" + "+08:00"
+      this.eventData.endTime = this.date + "T" + endTime + ":00" + "+08:00"
+      console.log(this.eventData)
+
+      let attendeeStr = ''
+      for (let i in this.formEventData.attendee) {
+        console.log(this.formEventData.attendee[i])
+        attendeeStr += String(this.formEventData.attendee[i])
+        attendeeStr += '/'
+        sendMail(this.formEventData.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+      }
+
+      await updateEvents(this.eventData.startTime, this.eventData.endTime, this.formEventData.title, this.formEventData.description, this.eventData.calendarID, attendeeStr, this.eventData.eventID)
+      this.editEventDialogVisible = false
+      console.log(this.formEventData)
+      this.getEventList()
+    }
+    else {
+      this.$message({
+        message: '請輸入會議名稱及時間',
+        type: 'error',
+        duration: 2000
+      })
+    }
   }
 }
 
