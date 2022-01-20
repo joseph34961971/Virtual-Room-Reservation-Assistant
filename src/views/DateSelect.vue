@@ -58,7 +58,7 @@
       <el-dialog
         title="Reservation"
         :visible.sync="reservationFormVisible"
-        width="60%"
+        width="1000px"
       >
         <el-form
           ref="dataForm"
@@ -73,6 +73,7 @@
             <el-input
               v-model="eventData.title"
               placeholder="請輸入會議名稱"
+              style="width: 50%"
             />
           </el-form-item>
           <el-form-item
