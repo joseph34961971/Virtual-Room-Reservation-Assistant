@@ -94,7 +94,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(row.account_id, $index)"
+              @click="handleDelete(row.eventID, row.calendarID, $index)"
             >
               刪除
             </el-button>
@@ -114,7 +114,7 @@
 
 <script lang="ts" setup>
 import { Vue, Component, Watch, PropSync } from 'vue-property-decorator'
-import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent } from '@/apis/googleCal'
+import { listUpcomingEvents, handleClientLoad, insertEvents, sendMail, getEvent, deleteEvents } from '@/apis/googleCal'
 import { MongoGetUserList } from '@/apis/mongoTest'
 import { event } from 'jquery'
 import { get } from 'http'
@@ -141,6 +141,8 @@ export default class test extends Vue {
     endTime: '',
     timeZone: '',
     attendee: '',
+    eventID: '',
+    calendarID: ''
   }
 
   private userCalendarID = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
@@ -187,7 +189,9 @@ export default class test extends Vue {
               startTime: data[j].start.dateTime,
               endTime: data[j].end.dateTime,
               timeZone: data[j].start.timeZone,
-              attendee: data[j].description
+              attendee: data[j].description,
+              eventID: data[j].id,
+              calendarID: this.roomOptions[i].value
             }
             
             this.eventList.push(tempEvent)
@@ -200,6 +204,28 @@ export default class test extends Vue {
     this.eventList.splice(0, 1)
 
     this.listLoading = false
+  }
+
+  private async handleDelete(eventID: any, calendarID: any, index: number) {
+    this.$confirm('此操作會刪除會議, 是否繼續?', '提示', {
+      confirmButtonText: '確定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async() => {
+      await deleteEvents(eventID, calendarID)
+      this.$notify({
+        title: 'Success',
+        message: 'Delete Successfully',
+        type: 'success',
+        duration: 2000
+      })
+      this.eventList.splice(index, 1)
+    }).catch(() => {
+      this.$message({
+        type: 'info',
+        message: '已取消刪除'
+      })
+    })
   }
 }
 
