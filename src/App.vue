@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <el-header align="right">
-        <el-button
+    <el-header align="left">
+    
+        <div class='fcenter'>VRRA
+        <div class='fright'>
+          <el-button
           type="primary"
           @click="$router.push('/')"
         >
@@ -13,6 +16,9 @@
         >
           <i class="el-icon-s-custom"></i>
         </el-button>
+        </div>
+        </div>
+        
       </el-header>
     <router-view/>
   </div>
@@ -42,6 +48,21 @@ export default class test extends Vue {
 </script>
 
 <style>
+.header {
+  text-align:center;
+}
+.fright {
+  float:right;
+}
+.fcenter {
+  font-family: "Sora";
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgba(115, 175, 121, 1);
+  margin-left:122px;
+  text-align:center;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

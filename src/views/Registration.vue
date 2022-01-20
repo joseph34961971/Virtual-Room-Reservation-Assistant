@@ -1,6 +1,10 @@
 <template>
   <div class="ra-register">
-    <p class="mylogo">VRRA</p>
+    <el-page-header
+      content="Register Page"
+      @back="$router.back(-1)"
+    >
+    </el-page-header>
     <div class="flex-wrapper-one">
       <p class="input">Register</p>
         <el-form
