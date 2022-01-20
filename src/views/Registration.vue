@@ -125,7 +125,6 @@ export default class test extends Vue {
     {  
       const userList = await MongoGetUserList();
       const userListN = JSON.parse(userList);
-      let isLegal = true;
 
       console.log(userListN);
       for(let i = 0;i<userListN.length;i++)
@@ -137,7 +136,7 @@ export default class test extends Vue {
           type: 'error',
           duration: 3000
           })
-          isLegal = false;
+          return;
         }
 
         if(userListN[i].userName == this.form.userName)
@@ -147,20 +146,17 @@ export default class test extends Vue {
           type: 'error',
           duration: 3000
           })
-          isLegal = false;
+          return;
         }
       }
 
-      if(isLegal == true)
-      {
-          MongoAddUser(this.form.firstName,this.form.lastName,this.form.userName,this.form.mail,this.form.password);
-          this.$message({
-            message: '註冊成功!',
-            type: 'success',
-            duration: 3000
-          })
-          this.$router.push('Login')
-      }
+        MongoAddUser(this.form.firstName,this.form.lastName,this.form.userName,this.form.mail,this.form.password);
+        this.$message({
+          message: '註冊成功!',
+          type: 'success',
+          duration: 3000
+         })
+        this.$router.push('Login')
     }else 
     {
       this.$message({
