@@ -58,13 +58,13 @@
       <el-dialog
         title="Reservation"
         :visible.sync="reservationFormVisible"
-        width="60%"
+        width="750px"
       >
         <el-form
           ref="dataForm"
           :model="eventData"
-          label-width="100px"
-          style="width: 700px; margin-left:120px;"
+          label-width="80px"
+          style="width: 700px; margin-left:0px;"
           align="left"
         >
           <el-form-item
@@ -73,6 +73,7 @@
             <el-input
               v-model="eventData.title"
               placeholder="請輸入會議名稱"
+              style="width: 95%"
             />
           </el-form-item>
           <el-form-item
@@ -81,7 +82,7 @@
             <el-select
               v-model="selectedTime"
               placeholder="請選擇時間"
-              style="width: 200px"
+              style="width: 95%"
               class="filter-item"
             >
               <el-option
@@ -109,6 +110,7 @@
             <el-input
               type="textarea"
               :rows="5"
+              style="width: 95%"
               placeholder="請輸入會議資訊"
               v-model="eventData.description"
             >
@@ -131,11 +133,18 @@
           <el-form-item>
             <el-button
               type="primary"
+              style="width: 95%; margin-bottom:10px; margin-top:40px;"
               @click="handleReservation"
             >
               確認預約
+            </el-button><br>
+            <el-button 
+              class="button"
+              style="width: 95%"
+              @click="reservationFormVisible = false"
+            >
+              取消
             </el-button>
-            <el-button @click="reservationFormVisible = false">取消</el-button>
           </el-form-item>
         </el-form>
       </el-dialog>
@@ -369,12 +378,16 @@ export default class test extends Vue {
 </script>
 
 <style lang="scss">
+.button{
+  align-items: right;
+  justify-content: center;
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #409EFF;
+  color: #3c925d;
   margin-top: 60px;
 }
 </style>
