@@ -109,6 +109,93 @@
         </el-table-column>
       </el-table>
     </el-main>
+
+    <!-- update event dialog -->
+    <el-dialog
+      title="Update Event"
+      :visible.sync="editEventDialogVisible"
+      width="60%"
+    >
+      <el-form
+        ref="dataForm"
+        :model="eventData"
+        label-width="100px"
+        style="width: 700px; margin-left:120px;"
+        align="left"
+      >
+        <el-form-item
+          label="會議名稱"
+        >
+          <el-input
+            v-model="eventData.title"
+            placeholder="請輸入會議名稱"
+          />
+        </el-form-item>
+        <el-form-item
+          label="會議時間"
+        >
+          <el-select
+            v-model="selectedTime"
+            placeholder="請選擇時間"
+            style="width: 200px"
+            class="filter-item"
+          >
+            <el-option
+              v-for="item in timeOptions"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+              :disabled="item.disabled"
+            />
+          </el-select>
+          <!-- <el-time-select
+            placeholder="結束时间"
+            v-model="endTime"
+            :picker-options="{
+              start: '09:00',
+              step: '01:00',
+              end: '18:00',
+              minTime: startTime
+            }">
+          </el-time-select> -->
+        </el-form-item>
+        <el-form-item
+          label="詳細資訊"
+        >
+          <el-input
+            type="textarea"
+            :rows="5"
+            placeholder="請輸入會議資訊"
+            v-model="eventData.description"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="參與者"
+        >
+          <template>
+            <el-transfer
+              filterable
+              filter-placeholder="請輸入邀請人信箱"
+              v-model="attendee"
+              :data="users"
+              :titles="['使用者列表', '被邀請']"
+            >
+            </el-transfer>
+          </template>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            @click="updateData"
+          >
+            確認預約
+          </el-button>
+          <el-button @click="reservationFormVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -144,6 +231,18 @@ export default class test extends Vue {
     eventID: '',
     calendarID: ''
   }
+
+  private eventData = {
+    title: '',
+    room: '',
+    startTime: '',
+    endTime: '',
+    timeZone: '',
+    attendee: '',
+    eventID: '',
+    calendarID: ''
+  }
+  private editEventDialogVisible = false
 
   private userCalendarID = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
   private userEventID = "dqqvsk5f6s60e44d3bkfjiepns"
@@ -226,6 +325,17 @@ export default class test extends Vue {
         message: '已取消刪除'
       })
     })
+  }
+
+  private async handleUpdate(row: any) {
+    console.log('handle update')
+    this.eventData = Object.assign({}, row)
+    this.editEventDialogVisible = true
+    console.log(this.eventData)
+  }
+
+  private async updateData() {
+    console.log('update ')
   }
 }
 
