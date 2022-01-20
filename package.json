@@ -20,6 +20,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/node-fetch": "^3.0.3",
     "@types/request": "^2.48.8",
+    "body-parser": "^1.19.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.4.5",
     "eval": "^0.1.6",
@@ -30,7 +31,9 @@
     "google-auth-library": "^7.11.0",
     "googleapis": "^92.0.0",
     "http": "^0.0.1-security",
+    "http-proxy-middleware": "^2.0.1",
     "http2": "^3.3.7",
+    "https-proxy-agent": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "mongodb": "^4.3.0",
@@ -88,5 +91,11 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "proxy": {
+    "/user": {
+      "target": "http://localhost:4000",
+      "ws": true
+    }
+  }
 }
