@@ -106,7 +106,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(row.eventID, row.calendarID, $index)"
+              @click="handleDelete(row, $index)"
             >
               刪除
             </el-button>
@@ -262,11 +262,13 @@ export default class test extends Vue {
   private timeOptions = this.defaultTimeOptions
   private defaultTime = ''
 
-  private users = [
-    { label: 'joseph34961971@gmail.com', key: 'joseph34961971@gmail.com', disabled: false},
-    { label: 'jam99998888@gmail.com', key: 'jam99998888@gmail.com', disabled: false},
-    { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
-  ]
+  // private users = [
+  //   { label: 'joseph34961971@gmail.com', key: 'joseph34961971@gmail.com', disabled: false},
+  //   { label: 'jam99998888@gmail.com', key: 'jam99998888@gmail.com', disabled: false},
+  //   { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
+  // ]
+
+  private users = [{}]
 
   private eventList = [{}]
 
@@ -299,7 +301,25 @@ export default class test extends Vue {
   created() {
     this.getUserInfo()
     this.getEventList()
+    this.getAllUsers()
     //deleteEvents("okuif14nfltn6dumpe0p187dms@group.calendar.google.com", "d4a7gvn7gt5sgcaldgeeh2eadg")
+  }
+
+  private async getAllUsers() {
+    const temp = await MongoGetUserList()
+    const allUsers = JSON.parse(temp)
+    for (let i = 0; i < allUsers.length; i++) {
+      //console.log(allUsers[i])
+      const tempUser = {
+        label: allUsers[i].userName,
+        key: allUsers[i].email,
+        disabled: false
+      }
+
+      this.users.push(tempUser)
+    }
+    this.users.splice(0, 1)
+    console.log(this.users)
   }
   
   private async getUserInfo() {
@@ -359,13 +379,29 @@ export default class test extends Vue {
     this.listLoading = false
   }
 
-  private async handleDelete(eventID: any, calendarID: any, index: number) {
+  private async handleDelete(row: any, index: number) {
     this.$confirm('此操作會刪除會議, 是否繼續?', '提示', {
       confirmButtonText: '確定',
       cancelButtonText: '取消',
       type: 'warning'
     }).then(async() => {
-      await deleteEvents(calendarID, eventID)
+      await deleteEvents(row.calendarID, row.eventID)
+      console.log('------------------------')
+      console.log(row)
+      
+      console.log(row.attendee)
+      let attendee = row.attendee.split('/')
+      let attendeeStr = ''
+      for (let i in attendee) {
+        attendeeStr += String(attendee[i])
+        attendeeStr += '/'
+        //sendMail(attendee[i], 'Meeting Invite Notification!!!', '您已使用VRRA成功刪除會議室!\n\n被刪除的會議室資訊如下\n會議室名稱: ' + this.formEventData.title + '\n會議開始時間: ' + this.formEventData.startTime + '\n會議結束時間: ' + this.eventData.endTime + '\n會議室描述及備註: ' + this.eventData.description + '\n參與會議者: ' + attendeeStr + '\n\n請準時參與該預約會議!!')
+      }
+
+      for (let i in attendee) {
+        sendMail(attendee[i], 'Meeting Delete Notification!!!', '您已使用VRRA成功刪除會議室!\n\n被刪除的會議室資訊如下\n會議室名稱: ' + row.title + '\n會議開始時間: ' + row.startTime + '\n會議結束時間: ' + row.endTime + '\n會議室描述及備註: ' + row.description + '\n參與會議者: ' + attendeeStr)
+      }
+      // console.log(attendeeStr)
       this.$notify({
         title: 'Success',
         message: 'Delete Successfully',
@@ -445,10 +481,15 @@ export default class test extends Vue {
         console.log(this.formEventData.attendee[i])
         attendeeStr += String(this.formEventData.attendee[i])
         attendeeStr += '/'
-        sendMail(this.formEventData.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+        //sendMail(this.formEventData.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+      }
+
+      for (let i in this.formEventData.attendee) {
+        sendMail(this.formEventData.attendee[i], 'Meeting Update Notification!!!', '您已使用VRRA成功編輯會議室!\n\n被編輯的會議室資訊如下\n會議室名稱: ' + this.formEventData.title + '\n會議開始時間: ' + this.eventData.startTime + '\n會議結束時間: ' + this.eventData.endTime + '\n會議室描述及備註: ' + this.eventData.description + '\n參與會議者: ' + attendeeStr)
       }
 
       await updateEvents(this.eventData.startTime, this.eventData.endTime, this.formEventData.title, this.formEventData.description, attendeeStr, this.eventData.calendarID, this.eventData.eventID)
+
       this.editEventDialogVisible = false
       console.log(this.formEventData)
       this.getEventList()
