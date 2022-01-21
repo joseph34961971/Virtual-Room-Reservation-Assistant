@@ -27,6 +27,7 @@
           class="label">Password</h2>
           <el-form-item>
             <el-input
+              type="password"
               class="input-two"
               v-model="form.password"              
             />
@@ -49,6 +50,7 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
+import {MongoGetUserList} from '@/apis/mongoTest';
 
 @Component({
   name: 'login'
@@ -76,10 +78,41 @@ export default class test extends Vue {
     console.log(this.date)
   }
 
-  private submit() {
-    console.log(this.form)
-  }
+  private async submit() {
+    if(this.form.userName == "" || this.form.password == "" )
+    {
+      this.$message({
+          message: '請填寫帳號或密碼!',
+          type: 'error',
+          duration: 3000
+          });
+          return;
+    }
 
+      const userList = await MongoGetUserList();
+      const userListN = JSON.parse(userList);
+
+      console.log(userListN);
+      for(let i = 0;i<userListN.length;i++)
+      {
+        if(userListN[i].userName == this.form.userName && userListN[i].password == this.form.password)
+        {
+          this.$message({
+          message: '歡迎，'+userListN[i].lastName+userListN[i].firstName,
+          type: 'success',
+          duration: 3000
+          });
+          this.$router.push('DateSelect');
+          return;
+        }
+      }
+
+      this.$message({
+          message: '輸入的帳號或者密碼有誤!',
+          type: 'error',
+          duration: 3000
+      });
+}
 }
 </script>
 
