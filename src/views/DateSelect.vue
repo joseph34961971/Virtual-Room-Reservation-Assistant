@@ -369,7 +369,12 @@ export default class test extends Vue {
       console.log(this.attendee[i])
       attendeeStr += String(this.attendee[i])
       attendeeStr += '/'
+      //sendMail(this.attendee[i], 'Meeting Invite Notification!!!', '您已使用VRRA成功預約會議室!\n\n會議室資訊如下\n會議室名稱: ' + this.eventData.title + '\n會議開始時間: ' + this.eventData.startTime + '\n會議結束時間: ' + this.eventData.endTime + '\n會議室描述及備註: ' + this.eventData.description + '\n參與會議者: ' + attendeeStr + '\n\n請準時參與該預約會議!!')
+    }
+
+    for (let i in this.attendee) {
       sendMail(this.attendee[i], 'Meeting Invite Notification!!!', '您已使用VRRA成功預約會議室!\n\n會議室資訊如下\n會議室名稱: ' + this.eventData.title + '\n會議開始時間: ' + this.eventData.startTime + '\n會議結束時間: ' + this.eventData.endTime + '\n會議室描述及備註: ' + this.eventData.description + '\n參與會議者: ' + attendeeStr + '\n\n請準時參與該預約會議!!')
+
     }
     console.log(attendeeStr)
 
@@ -380,6 +385,13 @@ export default class test extends Vue {
       type: 'success',
       duration: 2000
     })
+    
+    this.eventData.title = ''
+    this.eventData.startTime = ''
+    this.eventData.endTime = ''
+    this.eventData.description = ''
+    this.attendee = []
+    this.selectedTime = ''
 
     this.reservationFormVisible = false
   }

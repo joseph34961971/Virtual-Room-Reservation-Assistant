@@ -492,6 +492,13 @@ export default class test extends Vue {
 
       this.editEventDialogVisible = false
       console.log(this.formEventData)
+
+      this.$notify({
+        title: 'Success',
+        message: 'Update Successfully',
+        type: 'success',
+        duration: 2000
+      })
       this.getEventList()
     }
     else {
