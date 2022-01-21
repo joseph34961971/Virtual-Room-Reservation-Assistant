@@ -39,5 +39,11 @@
       "prettier --single-quote --write",
       "eslint --fix"
     ]
+  },
+  "bin":"server.js",
+  "pkg": {
+    
+    "targets": [ "node16-win-x64" ],
+    "outputPath": "dist"
   }
 }
