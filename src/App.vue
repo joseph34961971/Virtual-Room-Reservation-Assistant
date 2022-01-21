@@ -7,7 +7,7 @@
           <el-button
           type="primary"
           class="button"
-          @click="$router.push('/')"
+          @click="$router.push('DateSelect')"
         >
         RESERVE
         </el-button>

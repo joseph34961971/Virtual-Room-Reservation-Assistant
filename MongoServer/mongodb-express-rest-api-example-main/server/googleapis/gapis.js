@@ -21,7 +21,7 @@ module.exports= {
     sendMail: function (callback){
         const msg = {
             to: this.to, // Change to your recipient
-            from: 'VRRA Wizard<vrranotification@gmail.com>', // Change to your verified sender
+            from: 'VRRA<vrranotification@gmail.com>', // Change to your verified sender
             subject: this.subject,
             text: this.message,
           }

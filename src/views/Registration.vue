@@ -191,7 +191,7 @@ export default class test extends Vue {
 
   private signOut()
   {
-    sendMail("joseph34961971@gmail.com","中文","hello");
+    sendMail("yp93ruby@gmail.com","Reservation Confirmation","You have reserved a meeting in Room 1 at 2022/1/17 12:00. Modification of the meetings' details can be made on VRRA, thank you.");
   }
 
   private async sendNotification()
