@@ -68,15 +68,6 @@
           Register
         </el-button>
       </div>
-
-      <div class="flex-wrapper-two">
-        <el-button
-          class="button"
-          @click="signOut"
-        >
-          Debug
-        </el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -191,7 +182,7 @@ export default class test extends Vue {
 
   private signOut()
   {
-    sendMail("yp93ruby@gmail.com","Reservation Confirmation","You have reserved a meeting in Room 1 at 2022/1/17 12:00. Modification of the meetings' details can be made on VRRA, thank you.");
+    sendMail("yp93ruby@gmail.com","VRRA成功預約會議室通知","You have reserved a meeting in Room 1 at 2022/1/17 12:00. Modification of the meetings' details can be made on VRRA, thank you.");
   }
 
   private async sendNotification()
@@ -231,7 +222,8 @@ export default class test extends Vue {
     const userListN = JSON.parse(userList);
     for(let i = 0;i<userListN.length;i++)
     {
-      console.log(userListN[i].userName);
+      const a = userListN[i].userName;
+      console.log(userListN[0]);
     }
   }
 }
