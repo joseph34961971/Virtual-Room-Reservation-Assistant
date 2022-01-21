@@ -72,7 +72,7 @@
       <div class="flex-wrapper-two">
         <el-button
           class="button"
-          @click="getMongoUsers"
+          @click="signOut"
         >
           Debug
         </el-button>
@@ -121,6 +121,15 @@ export default class test extends Vue {
   }
 
   private async submit() {
+    if(this.form.firstName == "" || this.form.lastName == "" ||this.form.userName == ""|| this.form.password == "" || this.form.confirmPassword == "" || this.form.mail== "")
+    {
+      this.$message({
+          message: '請完整填寫資料。',
+          type: 'error',
+          duration: 3000
+          })
+          return;
+    }
     if(this.form.password == this.form.confirmPassword)
     {  
       const userList = await MongoGetUserList();
@@ -182,7 +191,7 @@ export default class test extends Vue {
 
   private signOut()
   {
-    sendMail("joseph34961971@gmail.com","hey","hello");
+    sendMail("joseph34961971@gmail.com","中文","hello");
   }
 
   private async sendNotification()

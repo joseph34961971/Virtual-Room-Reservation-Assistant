@@ -12,8 +12,12 @@ const gapis = require('../googleapis/gapis');
 recordRoutes.route('/googleApi/send').post(function (req, res) {
   const googleCal = gapis;
 
- console.log(req.body.Message);
- googleCal.sentMessage = req.body.Message;
+  console.log(req.body.to);
+  console.log(req.body.subject);
+ console.log(req.body.message);
+ googleCal.to = req.body.to;
+ googleCal.subject = req.body.subject;
+ googleCal.message = req.body.message;
   gapis.sendMail(function (err, result) {
     if (err) {
       res.status(400).send('Error fetching listings!');

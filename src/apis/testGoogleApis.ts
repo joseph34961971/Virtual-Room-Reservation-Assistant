@@ -3,16 +3,18 @@ export async function sendMail(To:any,Subject:any,Messsage:any) {
                 + 'Subject' + ": "+ 'Reservation Confirmation' + "\r\n"
                 + "\r\n" + "You have reserved a meeting in Room A at 2022/1/17 12:00. Modification of the meetings' details can be made on VRRA, thank you.";*/
 
-    const email = 'To' + ": "+ To + "\r\n" 
-                + 'Subject' + ": "+ Subject + "\r\n"
-                + "\r\n" + Messsage;
-    const resource = {
-      'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
-    };
+    // const email = 'To' + ": "+ To + "\r\n" 
+    //             + 'Subject' + ": "+ Subject + "\r\n"
+    //             + "\r\n" + Messsage;
+    // const resource = {
+    //   'raw': window.btoa(email).replace(/\+/g, '-').replace(/\//g, '_')
+    // };
 
     const raw = {             
-        "Message":resource
-        }
+      "to": To,
+      "subject": Subject,
+      "message":Messsage
+      }
       
         //http://localhost:4000/user
       await fetch("http://localhost:5000/googleApi/send", {
