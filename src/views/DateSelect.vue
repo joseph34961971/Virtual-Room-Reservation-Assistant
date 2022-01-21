@@ -161,6 +161,7 @@ import About from './views/About.vue';
 import { ServerHeartbeatFailedEvent } from 'mongodb';
 import { type } from 'jquery';
 import { get } from 'http';
+import { JsonWebTokenError } from 'jsonwebtoken';
 
 
 @Component({
@@ -206,11 +207,15 @@ export default class test extends Vue {
     calendarID: ''
   }
 
-  private users = [
-    { label: 'joseph34961971@gmail.com', key: 'joseph34961971@gmail.com', disabled: false},
-    { label: 'jam99998888@gmail.com', key: 'jam99998888@gmail.com', disabled: false},
-    { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
-  ]
+  // private users = [
+  //   { label: 'joseph34961971@gmail.com', key: 'joseph34961971@gmail.com', disabled: false},
+  //   { label: 'jam99998888@gmail.com', key: 'jam99998888@gmail.com', disabled: false},
+  //   { label: 'yp93ruby@gmail.com', key: 'yp93ruby@gmail.com', disabled: false}
+  // ]
+
+  private users = [{}]
+
+  //private tempUser = [{}]
   private attendee = []
 
   private userCalendarID = 'ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com'
@@ -225,6 +230,24 @@ export default class test extends Vue {
   
   async created() {
     this.getUserInfo()
+    this.getAllUsers()
+  }
+
+  private async getAllUsers() {
+    const temp = await MongoGetUserList()
+    const allUsers = JSON.parse(temp)
+    for (let i = 0; i < allUsers.length; i++) {
+      //console.log(allUsers[i])
+      const tempUser = {
+        label: allUsers[i].userName,
+        key: allUsers[i].email,
+        disabled: false
+      }
+
+      this.users.push(tempUser)
+    }
+    this.users.splice(0, 1)
+    console.log(this.users)
   }
 
   private async getUserInfo() {
@@ -238,7 +261,7 @@ export default class test extends Vue {
   private async enterDate() {
     //this.$router.push('Reservation')
     //this.timeOptions = this.defaultTimeOptions
-
+    
     //insertEvents('2022-01-01T09:00:00-08:00','2022-01-01T15:00:00-08:00','joseph','joseph34961971@gmail.com','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
     //const temp = await listUpcomingEvents('ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com')
     //console.log(temp)
@@ -346,7 +369,7 @@ export default class test extends Vue {
       console.log(this.attendee[i])
       attendeeStr += String(this.attendee[i])
       attendeeStr += '/'
-      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', 'You have been invite to the this meeting by handsome boy,\nmeeting time: ' + this.eventData.startTime + " - " + this.eventData.endTime)
+      sendMail(this.attendee[i], 'Meeting Invite Notification!!!', '您已使用VRRA成功預約會議室!\n\n會議室資訊如下\n會議室名稱: ' + this.eventData.title + '\n會議開始時間: ' + this.eventData.startTime + '\n會議結束時間: ' + this.eventData.endTime + '\n會議室描述及備註: ' + this.eventData.description + '\n參與會議者: ' + attendeeStr + '\n\n請準時參與該預約會議!!')
     }
     console.log(attendeeStr)
 

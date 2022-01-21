@@ -25,6 +25,7 @@
           label="會議名稱"
           align="center"
           min-width="140px"
+          sortable
         >
           <template slot-scope="{row}">
             <span>{{ row.title }}</span>
