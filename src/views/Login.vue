@@ -51,6 +51,7 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { component } from 'vue/types/umd';
 import About from './views/About.vue';
 import {MongoGetUserList} from '@/apis/mongoTest';
+import {updateEvents} from '@/apis/testGoogleApis'
 
 @Component({
   name: 'login'
@@ -97,6 +98,8 @@ export default class test extends Vue {
       {
         if(userListN[i].userName == this.form.userName && userListN[i].password == this.form.password)
         {
+          updateEvents('2022-01-01T17:00:00Z','2022-01-01T23:00:00Z',userListN[i].userName,userListN[i].email,'tapie','ooaqmbmd22ec3qfsmk015588j8@group.calendar.google.com','dqqvsk5f6s60e44d3bkfjiepns');
+
           this.$message({
           message: '歡迎，'+userListN[i].lastName+userListN[i].firstName,
           type: 'success',
