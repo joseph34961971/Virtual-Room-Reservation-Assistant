@@ -19,37 +19,6 @@ module.exports.addResource;
 
 module.exports= {
     sendMail: function (callback){
-        /*// create transporter object with smtp server details
-        const transporter = nodeMailer.createTransport({
-            host: 'smtp.sendgrid.net',
-            port: 587,
-            auth: {
-                user: 'jeff99998888@yahoo.com',
-                pass: '2188963421889634'
-            }
-        });
-
-        // Message object
-    let message = {
-        from: 'Chiang <jeff99998888@gmail.com>',
-        to: 'Hao-Wen <jam99998888@gmail.com>',
-        subject: 'Nodemailer is unicode friendly ✔',
-        text: 'Hello to myself!',
-        html: '<p><b>Hello</b> to myself!</p>'
-    };
-
-        transporter.sendMail(message, (err, info) => {
-            if (err) {
-                console.log('Error occurred. ' + err.message);
-                return callback(err);
-            }
-    
-            console.log('Message sent: %s', info.messageId);
-            // Preview only available when sending through an Ethereal account
-            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-            return callback(false,nodemailer.getTestMessageUrl(info));
-        });*/
-
         const msg = {
             to: this.to, // Change to your recipient
             from: 'VRRA Wizard<vrranotification@gmail.com>', // Change to your verified sender
