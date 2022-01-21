@@ -154,7 +154,7 @@ jwtClient = new google.auth.JWT(
      'https://www.googleapis.com/auth/gmail.readonly',
      'https://mail.google.com/']);
 //authenticate request
-sgMail.setApiKey('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');
+sgMail.setApiKey('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');
 jwtClient.authorize(function (err, tokens) {
 if (err) {
 console.log(err);

@@ -156,7 +156,7 @@ export default class test extends Vue {
           type: 'success',
           duration: 3000
          })
-        this.$router.push('Login')
+        this.$router.push('/')
     }else 
     {
       this.$message({
